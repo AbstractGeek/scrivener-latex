@@ -7,6 +7,7 @@ import os
 import sys
 import subprocess
 import re
+from pprint import pprint
 
 
 def get_file_if_unique(location, ext):
@@ -84,7 +85,7 @@ def split_figure_tex(tex_content, dest):
 
         # Write individual figure tex file
         for i, tex in enumerate(tex_names):
-            tex_output = tex_content[fig_start[i]:fig_end[i] + 1]
+            tex_output = tex_content[fig_start[i]:fig_end[i] + 1] + ["\n"]
             # Write complete tex file
             with open(os.path.join(dest, tex) + '.tex', 'w') as tex_file:
                 tex_file.writelines(tex_output)
@@ -101,7 +102,7 @@ def parseArguments(args):
     if not args.figure_source:
         args.figure_source = os.path.join(args.location, 'figures')
     if not args.figuretex:
-        args.figuretex = os.path.join(args.figure_source, 'figures.tex')
+        args.figuretex = os.path.join(args.figure_source, 'all-figures.tex')
     if not args.figure_dest:
         args.figure_dest = os.path.join(args.figure_source, 'cropped')
     if not args.tex_folder:
@@ -199,6 +200,17 @@ def main():
     subprocess.run(["bibtex", args.outfile + '.aux'])
     subprocess.run(["pdflatex", args.outfile + '.tex'])
     subprocess.run(["pdflatex", args.outfile + '.tex'])
+
+    # Create a figures pdf
+    main_start = find_in_texfile(main_tex_content, "\\begin{document}")
+    figure_tex_file = main_tex_content[:main_start + 1] + \
+        ["\\input{"] + [args.figuretex] + ["}\n", "\\end{document}\n", "\n"]
+    with open(args.outfile + '-only-figures.tex', 'w') as tex_file:
+        tex_file.writelines(figure_tex_file)
+
+    # Compile tex and bib files
+    subprocess.run(["pdflatex", args.outfile + '-only-figures.tex'])
+    subprocess.run(["pdflatex", args.outfile + '-only-figures.tex'])
 
     # Print exit message
     print("Scrivener mmd has been exported as docx, tex and pdf")
