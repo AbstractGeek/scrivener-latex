@@ -112,6 +112,7 @@ def main():
     subprocess.run(["pdflatex", outfile + '.tex'])
     subprocess.run(["bibtex", outfile + '.aux'])
     subprocess.run(["pdflatex", outfile + '.tex'])
+    subprocess.run(["pdflatex", outfile + '.tex'])
 
     # Print exit message
     print("Scrivener mmd has been exported as docx, tex and pdf")
