@@ -204,7 +204,8 @@ def main():
     # Create a figures pdf
     main_start = find_in_texfile(main_tex_content, "\\begin{document}")
     figure_tex_file = main_tex_content[:main_start + 1] + \
-        ["\\input{"] + [args.figuretex] + ["}\n", "\\end{document}\n", "\n"]
+        ["\\input{"] + [os.path.relpath(args.figuretex, args.location)] + \
+        ["}\n", "\\end{document}\n", "\n"]
     with open(args.outfile + '-only-figures.tex', 'w') as tex_file:
         tex_file.writelines(figure_tex_file)
 
