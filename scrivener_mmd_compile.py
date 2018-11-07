@@ -148,70 +148,74 @@ def main():
     parser.add_argument(
         "-t", "--tex-folder", default=False,
         help="destination folder for individual figure tex files.")
+    parser.add_argument(
+        "-n", "--only-figures", default=False, action='store_true',
+        help="generate only figures (no main thesis file).")
 
     args = parseArguments(parser.parse_args())
 
     # Change location to the main folder as the working directory
     os.chdir(args.location)
 
+    """Generate figures pdf"""
     # Crop pdfs for figures
     crop_pdfs(args.figure_source, args.figure_dest, args.whitespace_margins)
-
-    # Split figure tex file
-    with open(args.figuretex, 'r') as tex_file:
-        figure_tex_content = tex_file.readlines()
-    split_figure_tex(figure_tex_content, args.tex_folder)
-
-    # Generate docx file from multimarkdown
-    subprocess.run(["pandoc", "-s", "-S", "--normalize",
-                    "--bibliography", args.bibfile, "--toc",
-                    "-f", "markdown", "-t", "docx",
-                    "-o", args.outfile + ".docx", args.mmd[0]])
-
-    # Generate temp tex file
-    subprocess.run(["pandoc", "-s", "-S", "--normalize",
-                    "--natbib", "-f", "markdown", "-t", "latex",
-                    "-o", "scrivener_mmd_compile_temp.tex", args.mmd[0],
-                    "--variable", "documentclass=report"])
-
-    # Read temp, main tex file
-    with open('scrivener_mmd_compile_temp.tex', 'r') as tex_file:
-        input_tex_content = tex_file.readlines()
+    # find start point
     with open(args.maintex, 'r') as tex_file:
         main_tex_content = tex_file.readlines()
-
-    # find start, input and stop in tex files
-    doc_start = find_in_texfile(input_tex_content, "\\begin{document}")
-    doc_stop = find_in_texfile(input_tex_content, "\\end{document}")
-    input_line = find_in_texfile(
-        main_tex_content, "\\input{scrivener-input.tex}")
-
-    # Concatenate to create a complete tex file
-    complete_tex_file = main_tex_content[:input_line] + \
-        input_tex_content[doc_start + 1:doc_stop] + \
-        main_tex_content[input_line + 1:]
-
-    # Write complete tex file
-    with open(args.outfile + '.tex', 'w') as tex_file:
-        tex_file.writelines(complete_tex_file)
-
-    # Compile tex and bib files
-    subprocess.run(["pdflatex", args.outfile + '.tex'])
-    subprocess.run(["bibtex", args.outfile + '.aux'])
-    subprocess.run(["pdflatex", args.outfile + '.tex'])
-    subprocess.run(["pdflatex", args.outfile + '.tex'])
-
-    # Create a figures pdf
     main_start = find_in_texfile(main_tex_content, "\\begin{document}")
+    # Create a figures pdf
     figure_tex_file = main_tex_content[:main_start + 1] + \
         ["\\input{"] + [os.path.relpath(args.figuretex, args.location)] + \
         ["}\n", "\\end{document}\n", "\n"]
     with open(args.outfile + '-only-figures.tex', 'w') as tex_file:
         tex_file.writelines(figure_tex_file)
-
     # Compile tex and bib files
     subprocess.run(["pdflatex", args.outfile + '-only-figures.tex'])
     subprocess.run(["pdflatex", args.outfile + '-only-figures.tex'])
+
+    """Generate main pdf"""
+    if not args.only_figures:
+        # Split figure tex file
+        with open(args.figuretex, 'r') as tex_file:
+            figure_tex_content = tex_file.readlines()
+        split_figure_tex(figure_tex_content, args.tex_folder)
+
+        # Generate docx file from multimarkdown
+        subprocess.run(["pandoc", "-s", "-S", "--normalize",
+                        "--bibliography", args.bibfile, "--toc",
+                        "-f", "markdown", "-t", "docx",
+                        "-o", args.outfile + ".docx", args.mmd[0]])
+
+        # Generate temp tex file
+        subprocess.run(["pandoc", "-s", "-S", "--normalize",
+                        "--natbib", "-f", "markdown", "-t", "latex",
+                        "-o", "scrivener_mmd_compile_temp.tex", args.mmd[0],
+                        "--variable", "documentclass=report"])
+
+        # Read temp, main tex file
+        with open('scrivener_mmd_compile_temp.tex', 'r') as tex_file:
+            input_tex_content = tex_file.readlines()
+        # find start, input and stop in tex files
+        doc_start = find_in_texfile(input_tex_content, "\\begin{document}")
+        doc_stop = find_in_texfile(input_tex_content, "\\end{document}")
+        input_line = find_in_texfile(
+            main_tex_content, "\\input{scrivener-input.tex}")
+
+        # Concatenate to create a complete tex file
+        complete_tex_file = main_tex_content[:input_line] + \
+            input_tex_content[doc_start + 1:doc_stop] + \
+            main_tex_content[input_line + 1:]
+
+        # Write complete tex file
+        with open(args.outfile + '.tex', 'w') as tex_file:
+            tex_file.writelines(complete_tex_file)
+
+        # Compile tex and bib files
+        subprocess.run(["pdflatex", args.outfile + '.tex'])
+        subprocess.run(["bibtex", args.outfile + '.aux'])
+        subprocess.run(["pdflatex", args.outfile + '.tex'])
+        subprocess.run(["pdflatex", args.outfile + '.tex'])
 
     # Print exit message
     print("Scrivener mmd has been exported as docx, tex and pdf")
