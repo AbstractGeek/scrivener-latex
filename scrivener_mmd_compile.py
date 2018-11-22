@@ -91,6 +91,50 @@ def split_figure_tex(tex_content, dest):
                 tex_file.writelines(tex_output)
 
 
+def split_chapters(tex_content, dest, location):
+    """Split figure tex file into individual files."""
+    chap_start = find_in_texfile(tex_content, "\chapter", False)
+    chap_label = find_in_texfile(tex_content, "\label", False)
+
+    # Find label name (will become filename)
+    chap = re.compile('label{chapter-(\S+)}')
+    tex_names = []
+    for line in chap_label:
+        chap_temp = chap.search(tex_content[line])
+        if chap_temp:
+            tex_names.append(chap_temp.groups()[0])
+
+    # Consistenc check: Names and labels of chapters should be equal
+    if not (len(chap_start) == len(tex_names)):
+
+        print('Unequal \chapter (' +
+              str(len(chap_start)) + '), and \label ('
+              + str(len(tex_names)) + ') found.')
+        sys.exit()
+
+    else:
+            # Create folder if it does not exist
+        if not os.path.exists(dest):
+            os.makedirs(dest)
+
+        # Write individual figure tex file
+        main_include_files = []
+        chap_start.append(len(tex_content))
+        for i, tex in enumerate(tex_names):
+            tex_output = tex_content[chap_start[i]:chap_start[i + 1]] + ["\n"]
+            tex_output.append('\\input{helpers/bib}')
+            tex_output.append('\n')
+            # Write complete tex file
+            current_file = os.path.join(dest, 'chapter' + tex)
+            main_include_files.append("\\include{" +
+                                      os.path.relpath(current_file, location) +
+                                      "}\n")
+            with open(current_file + '.tex', 'w') as tex_file:
+                tex_file.writelines(tex_output)
+
+        return main_include_files
+
+
 def parseArguments(args):
     """Properly parse input arguments."""
     if not args.bibfile:
@@ -99,6 +143,8 @@ def parseArguments(args):
         args.maintex = get_file_if_unique(args.location, '*main.tex')
     if not args.outfile:
         args.outfile = os.path.splitext(args.mmd[0])[0]
+    if not args.chapter_folder:
+        args.chapter_folder = os.path.join(args.location, 'chapters')
     if not args.figure_source:
         args.figure_source = os.path.join(args.location, 'figures')
     if not args.figuretex:
@@ -108,7 +154,7 @@ def parseArguments(args):
     if not args.tex_folder:
         args.tex_folder = os.path.join(args.figure_source, 'texs')
     if not args.whitespace_margins:
-        args.whitespace_margins = '0 20 0 20'
+        args.whitespace_margins = '0 0 0 0'
 
     return args
 
@@ -151,6 +197,9 @@ def main():
     parser.add_argument(
         "-n", "--only-figures", default=False, action='store_true',
         help="generate only figures (no main thesis file).")
+    parser.add_argument(
+        "-c", "--chapter-folder", default=False,
+        help="destination folder for individual chapter tex files.")
 
     args = parseArguments(parser.parse_args())
 
@@ -196,6 +245,7 @@ def main():
         # Read temp, main tex file
         with open('scrivener_mmd_compile_temp.tex', 'r') as tex_file:
             input_tex_content = tex_file.readlines()
+
         # find start, input and stop in tex files
         doc_start = find_in_texfile(input_tex_content, "\\begin{document}")
         doc_stop = find_in_texfile(input_tex_content, "\\end{document}")
@@ -203,8 +253,16 @@ def main():
             main_tex_content, "\\input{scrivener-input.tex}")
 
         # Concatenate to create a complete tex file
+        # complete_tex_file = main_tex_content[:input_line] + \
+        #     input_tex_content[doc_start + 1:doc_stop] + \
+        #     main_tex_content[input_line + 1:]
+
+        # split chapters
+        main_include_files = split_chapters(
+            input_tex_content[doc_start + 1:doc_stop],
+            args.chapter_folder, args.location)
         complete_tex_file = main_tex_content[:input_line] + \
-            input_tex_content[doc_start + 1:doc_stop] + \
+            main_include_files + \
             main_tex_content[input_line + 1:]
 
         # Write complete tex file
@@ -213,7 +271,14 @@ def main():
 
         # Compile tex and bib files
         subprocess.run(["pdflatex", args.outfile + '.tex'])
-        subprocess.run(["bibtex", args.outfile + '.aux'])
+        # chapter specific bibliography
+        if True:    # Add an input option split_chapters
+            files = glob(os.path.join(args.chapter_folder, '*.aux'))
+            for f in files:
+                subprocess.run(["bibtex",
+                                os.path.relpath(f, args.location)])
+        else:
+            subprocess.run(["bibtex", args.outfile + '.aux'])
         subprocess.run(["pdflatex", args.outfile + '.tex'])
         subprocess.run(["pdflatex", args.outfile + '.tex'])
 
