@@ -154,7 +154,7 @@ def parseArguments(args):
     if not args.tex_folder:
         args.tex_folder = os.path.join(args.figure_source, 'texs')
     if not args.whitespace_margins:
-        args.whitespace_margins = '0 0 0 0'
+        args.whitespace_margins = '0 20 0 20'
 
     return args
 
@@ -220,8 +220,8 @@ def main():
     with open(args.outfile + '-only-figures.tex', 'w') as tex_file:
         tex_file.writelines(figure_tex_file)
     # Compile tex and bib files
-    subprocess.run(["pdflatex", args.outfile + '-only-figures.tex'])
-    subprocess.run(["pdflatex", args.outfile + '-only-figures.tex'])
+    subprocess.run(["xelatex", args.outfile + '-only-figures.tex'])
+    subprocess.run(["xelatex", args.outfile + '-only-figures.tex'])
 
     """Generate main pdf"""
     if not args.only_figures:
@@ -232,13 +232,15 @@ def main():
 
         # Generate docx file from multimarkdown
         subprocess.run(["pandoc", "-s", "-S", "--normalize",
-                        "--bibliography", args.bibfile, "--toc",
+                        "--bibliography", "--latex-engine=xelatex",
+                        args.bibfile, "--toc",
                         "-f", "markdown", "-t", "docx",
                         "-o", args.outfile + ".docx", args.mmd[0]])
 
         # Generate temp tex file
         subprocess.run(["pandoc", "-s", "-S", "--normalize",
-                        "--natbib", "-f", "markdown", "-t", "latex",
+                        "--natbib", "--latex-engine=xelatex", "-f",
+                        "markdown", "-t", "latex",
                         "-o", "scrivener_mmd_compile_temp.tex", args.mmd[0],
                         "--variable", "documentclass=report"])
 
@@ -270,7 +272,7 @@ def main():
             tex_file.writelines(complete_tex_file)
 
         # Compile tex and bib files
-        subprocess.run(["pdflatex", args.outfile + '.tex'])
+        subprocess.run(["xelatex", args.outfile + '.tex'])
         # chapter specific bibliography
         if True:    # Add an input option split_chapters
             files = glob(os.path.join(args.chapter_folder, '*.aux'))
@@ -279,8 +281,8 @@ def main():
                                 os.path.relpath(f, args.location)])
         else:
             subprocess.run(["bibtex", args.outfile + '.aux'])
-        subprocess.run(["pdflatex", args.outfile + '.tex'])
-        subprocess.run(["pdflatex", args.outfile + '.tex'])
+        subprocess.run(["xelatex", args.outfile + '.tex'])
+        subprocess.run(["xelatex", args.outfile + '.tex'])
 
     # Print exit message
     print("Scrivener mmd has been exported as docx, tex and pdf")
