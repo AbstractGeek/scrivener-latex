@@ -195,11 +195,17 @@ def main():
         "-t", "--tex-folder", default=False,
         help="destination folder for individual figure tex files.")
     parser.add_argument(
-        "-n", "--only-figures", default=False, action='store_true',
-        help="generate only figures (no main thesis file).")
-    parser.add_argument(
         "-c", "--chapter-folder", default=False,
         help="destination folder for individual chapter tex files.")
+    parser.add_argument(
+        "-of", "--only-figures", default=False, action='store_true',
+        help="generate only figures (no main thesis file).")
+    parser.add_argument(
+        "-nc", "--no-crop", default=False, action='store_true',
+        help="Do not crop figures (before compilation).")
+    parser.add_argument(
+        "-ob", "--one-bib", default=False, action='store_true',
+        help="Generate one bibliography for the whole thesis.")
 
     args = parseArguments(parser.parse_args())
 
@@ -208,7 +214,10 @@ def main():
 
     """Generate figures pdf"""
     # Crop pdfs for figures
-    crop_pdfs(args.figure_source, args.figure_dest, args.whitespace_margins)
+    if not args.no_crop:
+        crop_pdfs(args.figure_source, args.figure_dest,
+                  args.whitespace_margins)
+
     # find start point
     with open(args.maintex, 'r') as tex_file:
         main_tex_content = tex_file.readlines()
@@ -254,11 +263,6 @@ def main():
         input_line = find_in_texfile(
             main_tex_content, "\\input{scrivener-input.tex}")
 
-        # Concatenate to create a complete tex file
-        # complete_tex_file = main_tex_content[:input_line] + \
-        #     input_tex_content[doc_start + 1:doc_stop] + \
-        #     main_tex_content[input_line + 1:]
-
         # split chapters
         main_include_files = split_chapters(
             input_tex_content[doc_start + 1:doc_stop],
@@ -274,13 +278,14 @@ def main():
         # Compile tex and bib files
         subprocess.run(["xelatex", args.outfile + '.tex'])
         # chapter specific bibliography
-        if True:    # Add an input option split_chapters
+        if not args.one_bib:
             files = glob(os.path.join(args.chapter_folder, '*.aux'))
             for f in files:
                 subprocess.run(["bibtex",
                                 os.path.relpath(f, args.location)])
         else:
             subprocess.run(["bibtex", args.outfile + '.aux'])
+        # Compile twice to properly generates bibliography
         subprocess.run(["xelatex", args.outfile + '.tex'])
         subprocess.run(["xelatex", args.outfile + '.tex'])
 
