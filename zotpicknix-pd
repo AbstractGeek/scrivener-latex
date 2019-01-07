@@ -1,0 +1,44 @@
+#!/bin/bash
+
+## INSTALLATION ##
+# See README.md for details  
+# The default text editor is set to Scrivener. Edit Preferences below if you use a different program.
+
+## PREFERENCES ##
+textEditor="Scrivener" # Replace "Scrivener" with the name of your preferred text editor (as it appears in the program window)
+CAYW_URL="http://localhost:23119/better-bibtex/cayw?format=pandoc" # Edit the URL as needed for a different citation marker format.
+LOG=/home/dinesh/Logs/zotpickpd.log
+
+#widTE=$(xdotool search --onlyvisible $textEditor 2>/dev/null | head -1)
+widTE=$(xdotool getactivewindow)
+
+if ! [ $widTE ]; then
+		notify-send "Please open $textEditor and try again, or edit the Zotpicknix script file to specify a different text editor."
+		exit 3;
+fi
+
+BBT_status=$(/usr/bin/curl --noproxy "*" 'http://localhost:23119/better-bibtex/cayw?probe=probe' 2>/dev/null)
+
+if [ "$BBT_status" == "ready" ] 2>/dev/null; then
+		notify-send "Accessing Zotero picker..."
+		citation=$(/usr/bin/curl --noproxy "*"  $CAYW_URL 2>/dev/null)
+
+echo $citation | xclip -selection c
+
+#setxkbmap en_us
+#xdotool windowactivate $widTE && xdotool type --window $widTE --delay 40 "$citation" # Long delay minimises xdotool errors
+
+		exit 0;
+
+elif [ -z "$BBT_status" ]; then
+		notify-send "Please launch Zotero with the Better BibTeX plugin. If Zotero is running, check 'Enable export by HTTP' in BBT and restart Zotero."
+		xdotool windowactivate $widTE
+		exit 4;
+
+elif [ "$BBT_status" == "No endpoint found" ] 2>/dev/null; then
+		notify-send "Better BibTeX cannot find your library. Ensure only one Zotero instance is open. If so, reinstall Better BibTeX."
+else
+		notify-send "Unknown error in Better BibTex. Please restart Zotero and try again."
+fi
+xdotool windowactivate $widTE
+exit 5;
