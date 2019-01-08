@@ -93,7 +93,8 @@ def split_figure_tex(tex_content, dest):
 
 def split_chapters(tex_content, keyword, dest, location):
     """Split figure tex file into individual files."""
-    chap_start = find_in_texfile(tex_content, "\chapter", False)
+    chap_start = sorted(find_in_texfile(tex_content, "\chapter", False) +
+                        find_in_texfile(tex_content, "\markedchapter", False))
 
     # Find label name (will become filename)
     chap = re.compile('label{' + keyword + '-(\S+)}')
