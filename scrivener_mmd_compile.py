@@ -91,48 +91,38 @@ def split_figure_tex(tex_content, dest):
                 tex_file.writelines(tex_output)
 
 
-def split_chapters(tex_content, dest, location):
+def split_chapters(tex_content, keyword, dest, location):
     """Split figure tex file into individual files."""
     chap_start = find_in_texfile(tex_content, "\chapter", False)
-    chap_label = find_in_texfile(tex_content, "\label", False)
 
     # Find label name (will become filename)
-    chap = re.compile('label{chapter-(\S+)}')
+    chap = re.compile('label{' + keyword + '-(\S+)}')
     tex_names = []
-    for line in chap_label:
+    for i, line in enumerate(chap_start):
         chap_temp = chap.search(tex_content[line])
         if chap_temp:
-            tex_names.append(chap_temp.groups()[0])
+            tex_names.append((i, chap_temp.groups()[0]))
 
-    # Consistenc check: Names and labels of chapters should be equal
-    if not (len(chap_start) == len(tex_names)):
+    # Create folder if it does not exist
+    if not os.path.exists(dest):
+        os.makedirs(dest)
 
-        print('Unequal \chapter (' +
-              str(len(chap_start)) + '), and \label ('
-              + str(len(tex_names)) + ') found.')
-        sys.exit()
+    # Write individual figure tex file
+    main_include_files = []
+    chap_start.append(len(tex_content))
+    for i, tex in tex_names:
+        tex_output = tex_content[chap_start[i]:chap_start[i + 1]] + ["\n"]
+        tex_output.append('\\input{helpers/bib}')
+        tex_output.append('\n')
+        # Write complete tex file
+        current_file = os.path.join(dest, keyword + tex)
+        main_include_files.append("\\include{" +
+                                  os.path.relpath(current_file, location) +
+                                  "}\n")
+        with open(current_file + '.tex', 'w') as tex_file:
+            tex_file.writelines(tex_output)
 
-    else:
-            # Create folder if it does not exist
-        if not os.path.exists(dest):
-            os.makedirs(dest)
-
-        # Write individual figure tex file
-        main_include_files = []
-        chap_start.append(len(tex_content))
-        for i, tex in enumerate(tex_names):
-            tex_output = tex_content[chap_start[i]:chap_start[i + 1]] + ["\n"]
-            tex_output.append('\\input{helpers/bib}')
-            tex_output.append('\n')
-            # Write complete tex file
-            current_file = os.path.join(dest, 'chapter' + tex)
-            main_include_files.append("\\include{" +
-                                      os.path.relpath(current_file, location) +
-                                      "}\n")
-            with open(current_file + '.tex', 'w') as tex_file:
-                tex_file.writelines(tex_output)
-
-        return main_include_files
+    return main_include_files
 
 
 def parseArguments(args):
@@ -145,6 +135,8 @@ def parseArguments(args):
         args.outfile = os.path.splitext(args.mmd[0])[0]
     if not args.chapter_folder:
         args.chapter_folder = os.path.join(args.location, 'chapters')
+    if not args.appendix_folder:
+        args.appendix_folder = os.path.join(args.location, 'appendix')
     if not args.figure_source:
         args.figure_source = os.path.join(args.location, 'figures')
     if not args.figuretex:
@@ -197,6 +189,9 @@ def main():
     parser.add_argument(
         "-c", "--chapter-folder", default=False,
         help="destination folder for individual chapter tex files.")
+    parser.add_argument(
+        "-ap", "--appendix-folder", default=False,
+        help="destination folder for individual appendix tex files.")
     parser.add_argument(
         "-of", "--only-figures", default=False, action='store_true',
         help="generate only figures (no main thesis file).")
@@ -264,9 +259,12 @@ def main():
             main_tex_content, "\\input{scrivener-input.tex}")
 
         # split chapters
-        main_include_files = split_chapters(
-            input_tex_content[doc_start + 1:doc_stop],
-            args.chapter_folder, args.location)
+        main_include_files = \
+            split_chapters(input_tex_content[doc_start + 1:doc_stop],
+                           'chapter', args.chapter_folder, args.location) + \
+            ['\\backmatter \n'] + \
+            split_chapters(input_tex_content[doc_start + 1:doc_stop],
+                           'appendix', args.appendix_folder, args.location)
         complete_tex_file = main_tex_content[:input_line] + \
             main_include_files + \
             main_tex_content[input_line + 1:]
