@@ -229,8 +229,8 @@ def main():
     with open(args.outfile + '-only-figures.tex', 'w') as tex_file:
         tex_file.writelines(figure_tex_file)
     # Compile tex and bib files
-    subprocess.run(["xelatex", args.outfile + '-only-figures.tex'])
-    subprocess.run(["xelatex", args.outfile + '-only-figures.tex'])
+    subprocess.run(["lualatex", args.outfile + '-only-figures.tex'])
+    subprocess.run(["lualatex", args.outfile + '-only-figures.tex'])
 
     """Generate main pdf"""
     if not args.only_figures:
@@ -241,14 +241,14 @@ def main():
 
         # Generate docx file from multimarkdown
         subprocess.run(["pandoc", "-s", "-S", "--normalize",
-                        "--bibliography", "--latex-engine=xelatex",
+                        "--bibliography", "--latex-engine=lualatex",
                         args.bibfile, "--toc",
                         "-f", "markdown", "-t", "docx",
                         "-o", args.outfile + ".docx", args.mmd[0]])
 
         # Generate temp tex file
         subprocess.run(["pandoc", "-s", "-S", "--normalize",
-                        "--natbib", "--latex-engine=xelatex", "-f",
+                        "--natbib", "--latex-engine=lualatex", "-f",
                         "markdown", "-t", "latex",
                         "-o", "scrivener_mmd_compile_temp.tex", args.mmd[0],
                         "--variable", "documentclass=report"])
@@ -276,7 +276,7 @@ def main():
             tex_file.writelines(complete_tex_file)
 
         # Compile tex and bib files
-        subprocess.run(["xelatex", args.outfile + '.tex'])
+        subprocess.run(["lualatex", args.outfile + '.tex'])
         # chapter specific bibliography
         if not args.one_bib:
             files = glob(os.path.join(args.chapter_folder, '*.aux'))
@@ -286,8 +286,8 @@ def main():
         else:
             subprocess.run(["bibtex", args.outfile + '.aux'])
         # Compile twice to properly generates bibliography
-        subprocess.run(["xelatex", args.outfile + '.tex'])
-        subprocess.run(["xelatex", args.outfile + '.tex'])
+        subprocess.run(["lualatex", args.outfile + '.tex'])
+        subprocess.run(["lualatex", args.outfile + '.tex'])
 
     # Print exit message
     print("Scrivener mmd has been exported as docx, tex and pdf")

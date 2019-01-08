@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<CompileFormat Name="scrivener-latex" ID="CAE47756-7AC3-4729-BDAA-42CA39D7DF85">
+<CompileFormat Name="scrivener-latex-test" ID="F763F339-9848-4B2D-981A-3DABAC2B5253">
     <SectionLayouts>
         <Layout Name="Chapter Number" ID="CHAPTER-NUMBER">
             <RTFBookmark>Yes</RTFBookmark>
@@ -72,7 +72,7 @@
             <Include Titles="Yes"></Include>
             <RTFBookmark>Yes</RTFBookmark>
             <Titles>
-                <Prefix><![CDATA[<$title> {#chapter-<$n>}]]></Prefix>
+                <Prefix><![CDATA[<$title> {#chapter-<$hn>}]]></Prefix>
                 <Suffix HashesInside="Yes"/>
             </Titles>
             <Formatting Override="No">
@@ -267,6 +267,9 @@
         </Layout>
         <Layout Name="Text Section" ID="TEXT-SECTION">
             <Include Text="Yes"></Include>
+            <Prefix><![CDATA[
+
+]]></Prefix>
             <Formatting Override="No" FlattenIndents="FirstParagraph">
                 <Title><![CDATA[{\rtf1\ansi\ansicpg1252\cocoartf1348\cocoasubrtf170
 {\fonttbl\f0\froman\fcharset0 Palatino-Roman;}
