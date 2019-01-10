@@ -53,8 +53,12 @@ def crop_pdfs(src, dest, margins):
 
 def split_figure_tex(tex_content, dest):
     """Split figure tex file into individual files."""
-    fig_start = find_in_texfile(tex_content, "\\begin{figure}", False)
-    fig_end = find_in_texfile(tex_content, "\\end{figure}", False)
+    fig_start = sorted(
+        find_in_texfile(tex_content, "\\begin{figure}", False) +
+        find_in_texfile(tex_content, "\\begin{FPfigure}", False))
+    fig_end = sorted(
+        find_in_texfile(tex_content, "\\end{figure}", False) +
+        find_in_texfile(tex_content, "\\end{FPfigure}", False))
     label_lines = find_in_texfile(tex_content, "\\label{", False)
 
     # Check for consistency in counts
@@ -220,6 +224,7 @@ def main():
     main_start = find_in_texfile(main_tex_content, "\\begin{document}")
     # Create a figures pdf
     figure_tex_file = main_tex_content[:main_start + 1] + \
+        ['\\clearpage\\mbox{}\\clearpage'] + \
         ["\\input{"] + [os.path.relpath(args.figuretex, args.location)] + \
         ["}\n", "\\end{document}\n", "\n"]
     with open(args.outfile + '-only-figures.tex', 'w') as tex_file:
