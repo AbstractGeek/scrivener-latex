@@ -55,10 +55,12 @@ def split_figure_tex(tex_content, dest):
     """Split figure tex file into individual files."""
     fig_start = sorted(
         find_in_texfile(tex_content, "\\begin{figure}", False) +
-        find_in_texfile(tex_content, "\\begin{FPfigure}", False))
+        find_in_texfile(tex_content, "\\begin{Mfigure}", False) +
+	find_in_texfile(tex_content, "\\begin{MFPfigure}", False))
     fig_end = sorted(
         find_in_texfile(tex_content, "\\end{figure}", False) +
-        find_in_texfile(tex_content, "\\end{FPfigure}", False))
+        find_in_texfile(tex_content, "\\end{Mfigure}", False) +
+	find_in_texfile(tex_content, "\\end{MFPfigure}", False))
     label_lines = find_in_texfile(tex_content, "\\label{", False)
 
     # Check for consistency in counts
