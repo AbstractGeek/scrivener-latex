@@ -56,11 +56,11 @@ def split_figure_tex(tex_content, dest):
     fig_start = sorted(
         find_in_texfile(tex_content, "\\begin{figure}", False) +
         find_in_texfile(tex_content, "\\begin{Mfigure}", False) +
-	find_in_texfile(tex_content, "\\begin{MFPfigure}", False))
+        find_in_texfile(tex_content, "\\begin{MFPfigure}", False))
     fig_end = sorted(
         find_in_texfile(tex_content, "\\end{figure}", False) +
         find_in_texfile(tex_content, "\\end{Mfigure}", False) +
-	find_in_texfile(tex_content, "\\end{MFPfigure}", False))
+        find_in_texfile(tex_content, "\\end{MFPfigure}", False))
     label_lines = find_in_texfile(tex_content, "\\label{", False)
 
     # Check for consistency in counts
@@ -270,9 +270,10 @@ def main():
         main_include_files = \
             split_chapters(input_tex_content[doc_start + 1:doc_stop],
                            'chapter', args.chapter_folder, args.location) + \
-            ['\\backmatter \n'] + \
+            ['\\begin{appendices} \n'] + \
             split_chapters(input_tex_content[doc_start + 1:doc_stop],
-                           'appendix', args.appendix_folder, args.location)
+                           'appendix', args.appendix_folder, args.location) + \
+            ['\\end{appendices} \n']
         complete_tex_file = main_tex_content[:input_line] + \
             main_include_files + \
             main_tex_content[input_line + 1:]
