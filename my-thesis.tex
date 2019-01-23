@@ -1,0 +1,160 @@
+\documentclass[
+12pt,
+a4paper, 
+%oneside, % Uncomment this for digital
+twoside,  % Use twoside for printing.
+openright, % Uncomment this for printing
+]{book}
+% ]{scrbook}
+
+% Ragged bottom prevents variable spacing text and floats (done usually to keep last lines in both pages same in book format.)
+\raggedbottom
+
+% Fonts
+\usepackage[english]{babel}
+\usepackage{fontspec}
+\usepackage{parskip}
+
+% Bibliography
+\usepackage[round]{natbib}
+\usepackage[sectionbib]{chapterbib} %References on each chapter
+\usepackage{chapterbib}
+
+% Graphics and other packages for text and figures
+\usepackage{graphicx}
+\graphicspath{ {figures/cropped/} }
+\usepackage[dvipsnames]{xcolor}
+\usepackage{enumitem, siunitx, mathtools, amsfonts}
+\usepackage[font=small, labelfont=bf, singlelinecheck=false, width=.95\textwidth, labelsep=colon]{caption}
+\usepackage[rightFloats, CaptionBefore]{fltpage}
+\newtagform{brackets}{[}{]}
+\usetagform{brackets}
+\newcommand{\figuretitle}{}
+\DeclareCaptionFormat{myformat}{#1 #2 \textbf{\figuretitle} \\ #3}
+\captionsetup{format=myformat}
+\captionsetup[FPfigure]{format=myformat}
+\newenvironment{Mfigure}[1]
+	{\renewcommand{\figuretitle}{#1}
+	\begin{figure}[htbp]}
+	{\end{figure}}
+\newenvironment{MFPfigure}[1]
+	{\renewcommand{\figuretitle}{#1}
+	\begin{FPfigure}}
+	{\end{FPfigure}}	
+\usepackage{subcaption}
+
+% Packages to make the thesis beautiful.
+\usepackage{standalone} % load only in the main file
+\usepackage{fancyhdr} %For header
+\usepackage{emptypage} % Removes header from empty pages
+\usepackage{longtable} % Multipage Tables
+\usepackage{makeidx} %To make index page
+\usepackage[totoc]{idxlayout} %To get index into TOC
+\usepackage[acronym,toc]{glossaries} %Acronyms, TOC option will add it to TOC
+\usepackage[titletoc,title]{appendix} %For Appendix
+% \raggedbottom
+% \setlength{\parskip}{1em plus .1em minus 1.em}
+
+% Short chapter and section headings
+\newcommand{\markedchapter}[2]{\chapter[#2]{#2%
+\chaptermark{#1}}
+\chaptermark{#1}}
+\newcommand{\markedsection}[2]{\section[#2]{#2%
+\sectionmark{#1}}
+\sectionmark{#1}}
+
+% Need to remove section numbers of appendix from TOC
+\usepackage{etoolbox}
+\appto\appendix{\addtocontents{toc}{\protect\setcounter{tocdepth}{0}}}
+% reinstate the correct level for list of tables and figures
+\appto\listoffigures{\addtocontents{lof}{\protect\setcounter{tocdepth}{1}}}
+\appto\listoftables{\addtocontents{lot}{\protect\setcounter{tocdepth}{1}}}
+
+%Create new style to add header on each page
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\chaptermark}[1]{\markboth{#1}{}}
+% \newcommand{\mymark}{\chaptername\ \thechapter.\ \ \leftmark}
+\makeatletter
+\fancyhead[RO]{\if@mainmatter \slshape\nouppercase{\leftmark} \else \slshape\nouppercase{\leftmark} \fi}
+\fancyhead[LE]{\if@mainmatter \slshape\nouppercase{\rightmark} \else \slshape\nouppercase{\leftmark} \fi}
+\makeatother
+\cfoot{\fancyplain{}{\thepage}}
+\setlength{\headheight}{15pt}
+
+% Footnote related command
+\newcommand\pubnote[1]{%
+	\begingroup
+	\renewcommand\thefootnote{}\footnote{#1}%
+	\addtocounter{footnote}{-1}%
+	\endgroup
+}
+
+% Author, title information
+\author{C.M.O.T Dibbler}
+\usepackage[
+pdfauthor={C.M.O.T Dibbler},
+pdftitle ={The chronicles of Blind Io},
+pdfsubject={Theology},
+pdfkeywords={preach, time, faith, disbelief, bargain}, hidelinks]{hyperref} %References and hyperlinks
+
+% Comment following Hypersetup during printing
+\hypersetup{ 
+	colorlinks   = true, %Colours links instead of ugly boxes
+	urlcolor     = blue, %Colour for external hyperlinks
+	linkcolor    = BurntOrange, %Colour of internal links
+	citecolor   = teal %Colour of citations
+}
+
+% \makeindex %Makes index file.
+% \makeglossaries %Make glossary file
+
+\begin{document}
+
+	\frontmatter
+	\input{front_matter/cover_page}
+	\input{front_matter/declaration}
+	\input{front_matter/certificate}
+	\input{front_matter/publications}
+	\input{front_matter/acknowledgment}
+	\input{front_matter/dedication}
+
+	\printglossary[type=\acronymtype,title={Abbreviations}, style=alttree]
+	\phantomsection
+	\addcontentsline{toc}{chapter}{\listfigurename}
+	\listoffigures
+	\phantomsection
+	\addcontentsline{toc}{chapter}{\listtablename}
+	\listoftables
+	\tableofcontents
+
+	\chapter{Acknowledgements}
+	I would like to thank my supervisors, Professor Someone. This
+	research was funded by the Imaginary Research Council.
+
+	\chapter{Abstract}
+	A brief summary of the project goes here.
+	% A glossary and list of acronyms may go here
+	% or may go in the back matter.
+
+	\mainmatter
+\include{chapters/chapter1}
+\include{chapters/chapter2}
+\include{chapters/chapter3}
+\include{chapters/chapter4}
+\begin{appendices} 
+\include{appendix/appendix1}
+\include{appendix/appendix2}
+\include{appendix/appendix3}
+\include{appendix/appendix4}
+\end{appendices} 
+
+	% acronymns etc
+	\input{helpers/acronym} %Include add acronyms
+	\printindex
+
+	% The bibliography will go here
+	%\bibliographystyle{plainnat}
+	%\bibliography{literature}
+
+\end{document}

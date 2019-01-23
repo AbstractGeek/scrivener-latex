@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompileSettings>
+    <ProjectSettings>
+        <Content Scope="Included">
+            <CompileGroup Type="BinderItem"/>
+            <Filter State="Off" Exclude="No" Type="Label">
+                <CollectionID></CollectionID>
+                <Label>-1</Label>
+                <Status>-1</Status>
+            </Filter>
+        </Content>
+        <Options>
+            <RemoveComments>Yes</RemoveComments>
+            <RemoveAnnotations>Yes</RemoveAnnotations>
+            <Links/>
+            <Scriptwriting>
+                <IncludeTitles>Yes</IncludeTitles>
+                <IncludeSynopses>Yes</IncludeSynopses>
+                <CommentsAsScriptNotes>Yes</CommentsAsScriptNotes>
+            </Scriptwriting>
+            <Ebook>
+                <StartAfterFrontMatter>Yes</StartAfterFrontMatter>
+                <Cover>
+                    <ImageDocument Source="FrontMatter"></ImageDocument>
+                    <Title>Cover</Title>
+                    <SVG Width="-1" Height="-1"><![CDATA[]]></SVG>
+                </Cover>
+                <TOC>
+                    <HTML Generate="Yes">
+                        <Title>Contents</Title>
+                    </HTML>
+                </TOC>
+            </Ebook>
+        </Options>
+        <MetaData>
+            <ProjectTitle>&lt;$template_projectName&gt;</ProjectTitle>
+            <ProjectAbbreviatedTitle>&lt;$template_projectName&gt;</ProjectAbbreviatedTitle>
+            <Surname>&lt;$template_lastName&gt;</Surname>
+            <Forename>&lt;$template_firstName&gt;</Forename>
+            <EbookLanguage>en</EbookLanguage>
+            <FountainTitlePageMetaData>
+                <Value Key="Title"><![CDATA[<$projecttitle>]]></Value>
+                <Value Key="Author"><![CDATA[<$author>]]></Value>
+            </FountainTitlePageMetaData>
+            <MMDMetaData>
+                <Value Key="Title"><![CDATA[<$projecttitle>]]></Value>
+                <Value Key="Author"><![CDATA[<$author>]]></Value>
+            </MMDMetaData>
+        </MetaData>
+    </ProjectSettings>
+    <CurrentFileType>mmd</CurrentFileType>
+    <FormatSettings>
+        <Format ID="DEFAULT"></Format>
+        <Format ID="F763F339-9848-4B2D-981A-3DABAC2B5253">
+            <SectionLayouts>
+                <Type ID="0423A8E9-1079-4539-A077-0CB6A5048678">TEXT-SECTION</Type>
+                <Type ID="24A8FE11-21B6-44D2-9389-962901EF1221">TEXT-SECTION</Type>
+                <Type ID="24C6F653-1160-4A19-8785-3430CCDA80B1">TEXT-SECTION</Type>
+                <Type ID="7A455D96-CFB1-4E3B-A024-96939D66C14C">TEXT-SECTION</Type>
+                <Type ID="9A6AA350-3923-4700-8AC2-AA01F7B7D013">TEXT-SECTION</Type>
+            </SectionLayouts>
+        </Format>
+    </FormatSettings>
+    <LastUsedFormats>
+        <mmd>F763F339-9848-4B2D-981A-3DABAC2B5253</mmd>
+        <rtf>DEFAULT</rtf>
+    </LastUsedFormats>
+</CompileSettings>

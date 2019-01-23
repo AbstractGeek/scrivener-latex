@@ -1,0 +1,28 @@
+% For this page we need to remove chapter title and space above the title
+
+% Following definition will remove the chapter title
+\makeatletter
+\newcommand{\unchapter}[1]{%
+	\begingroup
+	\let\@makechapterhead\@gobble % make \@makechapterhead do nothing
+	\chapter*{#1}  % Used * so that it won't appear in Table of Content
+	\endgroup
+}
+\makeatother
+
+%Adjust Vspace to shift chapter above so that without title it will look like middle of the space 
+\unchapter{\vspace{-5cm}} 
+
+% Make sure to use closed center enviornment instead \centering 
+%else all other chapters will also become center
+\begin{center}
+	\topskip0pt
+	\vspace*{\fill}
+	{\large Dedicated to all \par}
+	\vspace{0.5cm}
+	{\LARGE whatever you want!}
+	\vspace*{\fill}
+\end{center}
+
+% Following will remove the page number
+\thispagestyle{empty}

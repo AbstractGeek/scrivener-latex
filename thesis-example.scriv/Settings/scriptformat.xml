@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScrivenerScriptFormat Version="1.0">
+    <Name>Screenplay</Name>
+    <Units>Inches</Units>
+    <ScriptElements>
+        <Element>
+            <Title>Scene Heading</Title>
+            <KeyEquivalent>s</KeyEquivalent>
+            <CharacterFormat>
+                <Font Name="Courier" Size="12"/>
+                <UnderlineStyle>None</UnderlineStyle>
+                <AllCaps>Yes</AllCaps>
+            </CharacterFormat>
+            <ParagraphFormat>
+                <KeepWithNext>Yes</KeepWithNext>
+                <Alignment>Left</Alignment>
+                <Spacing>1</Spacing>
+                <SpaceBefore>2</SpaceBefore>
+                <SpaceAfter>0</SpaceAfter>
+                <FirstLineIndent>0.5</FirstLineIndent>
+                <Indent>0.5</Indent>
+                <TailIndent>6.5</TailIndent>
+                <FirstTab>0</FirstTab>
+                <FixedLineHeight>12</FixedLineHeight>
+            </ParagraphFormat>
+            <NextElement>Action</NextElement>
+            <NextElementOnEmptyLineTab>Action</NextElementOnEmptyLineTab>
+            <TabbingAfterTypingBehavior>InsertText</TabbingAfterTypingBehavior>
+            <NextElementOnTabAfterTyping>Scene Heading</NextElementOnTabAfterTyping>
+            <TextToInsertOnTab>( - )</TextToInsertOnTab>
+            <AutoCompleteList>
+                <Completions>
+                    <Completion NewLineAfter="No">INT. </Completion>
+                    <Completion NewLineAfter="No">EXT. </Completion>
+                    <Completion NewLineAfter="No">INT./EXT. </Completion>
+                    <Completion NewLineAfter="No">I/E. </Completion>
+                    <Completion NewLineAfter="No">FADE IN:</Completion>
+                    <Completion NewLineAfter="No">FULL SHOT</Completion>
+                    <Completion NewLineAfter="No">P.O.V.</Completion>
+                    <Completion NewLineAfter="Yes">DAY</Completion>
+                    <Completion NewLineAfter="Yes">NIGHT</Completion>
+                    <Completion NewLineAfter="Yes">MORNING</Completion>
+                    <Completion NewLineAfter="Yes">AFTERNOON</Completion>
+                    <Completion NewLineAfter="Yes">EVENING</Completion>
+                    <Completion NewLineAfter="Yes">LATER</Completion>
+                    <Completion NewLineAfter="Yes">MOMENTS LATER</Completion>
+                    <Completion NewLineAfter="Yes">CONTINUOUS</Completion>
+                    <Completion NewLineAfter="Yes">THE NEXT DAY</Completion>
+                </Completions>
+                <AppendProjectAutoCompleteList>Yes</AppendProjectAutoCompleteList>
+                <AutomaticallyAddPhrasesToProjectList>Yes</AutomaticallyAddPhrasesToProjectList>
+                <PhraseStartDelimiter>(. )</PhraseStartDelimiter>
+                <PhraseEndDelimiter>(-)</PhraseEndDelimiter>
+            </AutoCompleteList>
+        </Element>
+        <Element>
+            <Title>Action</Title>
+            <KeyEquivalent>a</KeyEquivalent>
+            <CharacterFormat>
+                <Font Name="Courier" Size="12"/>
+                <UnderlineStyle>None</UnderlineStyle>
+            </CharacterFormat>
+            <ParagraphFormat>
+                <Alignment>Left</Alignment>
+                <Spacing>1</Spacing>
+                <SpaceBefore>1</SpaceBefore>
+                <SpaceAfter>0</SpaceAfter>
+                <FirstLineIndent>0.5</FirstLineIndent>
+                <Indent>0.5</Indent>
+                <TailIndent>6.5</TailIndent>
+                <FirstTab>0</FirstTab>
+                <FixedLineHeight>12</FixedLineHeight>
+            </ParagraphFormat>
+            <NextElement>Action</NextElement>
+            <NextElementOnEmptyLineTab>Character</NextElementOnEmptyLineTab>
+            <TabbingAfterTypingBehavior>NewElement</TabbingAfterTypingBehavior>
+            <NextElementOnTabAfterTyping>Action</NextElementOnTabAfterTyping>
+            <AutoCompleteList/>
+        </Element>
+        <Element>
+            <Title>Character</Title>
+            <KeyEquivalent>c</KeyEquivalent>
+            <CharacterFormat>
+                <Font Name="Courier" Size="12"/>
+                <UnderlineStyle>None</UnderlineStyle>
+                <AllCaps>Yes</AllCaps>
+            </CharacterFormat>
+            <ParagraphFormat>
+                <KeepWithNext>Yes</KeepWithNext>
+                <Alignment>Left</Alignment>
+                <Spacing>1</Spacing>
+                <SpaceBefore>1</SpaceBefore>
+                <SpaceAfter>0</SpaceAfter>
+                <FirstLineIndent>2.5</FirstLineIndent>
+                <Indent>2.5</Indent>
+                <TailIndent>6.25</TailIndent>
+                <FirstTab>0</FirstTab>
+                <FixedLineHeight>12</FixedLineHeight>
+            </ParagraphFormat>
+            <NextElement>Dialogue</NextElement>
+            <NextElementOnEmptyLineTab>Transition</NextElementOnEmptyLineTab>
+            <TabbingAfterTypingBehavior>NewElement</TabbingAfterTypingBehavior>
+            <NextElementOnTabAfterTyping>Parenthetical</NextElementOnTabAfterTyping>
+            <AutoCompleteList>
+                <Completions>
+                    <Completion NewLineAfter="Yes">(O.C.)</Completion>
+                    <Completion NewLineAfter="Yes">(O.S.)</Completion>
+                    <Completion NewLineAfter="Yes">(V.O.)</Completion>
+                    <Completion NewLineAfter="Yes">(CONT'D)</Completion>
+                    <Completion NewLineAfter="Yes">(SUBTITLE)</Completion>
+                </Completions>
+                <AppendProjectAutoCompleteList>Yes</AppendProjectAutoCompleteList>
+                <ProjectListAutoCompleteBehavior>GoToNextLine</ProjectListAutoCompleteBehavior>
+                <AutomaticallyAddPhrasesToProjectList>Yes</AutomaticallyAddPhrasesToProjectList>
+                <PhraseEndDelimiter>(()</PhraseEndDelimiter>
+            </AutoCompleteList>
+        </Element>
+        <Element>
+            <Title>Parenthetical</Title>
+            <KeyEquivalent>p</KeyEquivalent>
+            <CharacterFormat>
+                <Font Name="Courier" Size="12"/>
+                <UnderlineStyle>None</UnderlineStyle>
+            </CharacterFormat>
+            <ParagraphFormat>
+                <Parenthetical>Yes</Parenthetical>
+                <Alignment>Left</Alignment>
+                <Spacing>1</Spacing>
+                <SpaceBefore>0</SpaceBefore>
+                <SpaceAfter>0</SpaceAfter>
+                <FirstLineIndent>2</FirstLineIndent>
+                <Indent>2</Indent>
+                <TailIndent>4.5</TailIndent>
+                <FirstTab>0</FirstTab>
+                <FixedLineHeight>12</FixedLineHeight>
+            </ParagraphFormat>
+            <NextElement>Dialogue</NextElement>
+            <NextElementOnEmptyLineTab>Dialogue</NextElementOnEmptyLineTab>
+            <TabbingAfterTypingBehavior>NewElement</TabbingAfterTypingBehavior>
+            <NextElementOnTabAfterTyping>Dialogue</NextElementOnTabAfterTyping>
+            <AutoCompleteList>
+                <ProjectListAutoCompleteBehavior>GoToNextLine</ProjectListAutoCompleteBehavior>
+            </AutoCompleteList>
+        </Element>
+        <Element>
+            <Title>Dialogue</Title>
+            <KeyEquivalent>d</KeyEquivalent>
+            <CharacterFormat>
+                <Font Name="Courier" Size="12"/>
+                <UnderlineStyle>None</UnderlineStyle>
+            </CharacterFormat>
+            <ParagraphFormat>
+                <Alignment>Left</Alignment>
+                <Spacing>1</Spacing>
+                <SpaceBefore>0</SpaceBefore>
+                <SpaceAfter>0</SpaceAfter>
+                <FirstLineIndent>1.5</FirstLineIndent>
+                <Indent>1.5</Indent>
+                <TailIndent>5</TailIndent>
+                <FirstTab>0</FirstTab>
+                <FixedLineHeight>12</FixedLineHeight>
+            </ParagraphFormat>
+            <NextElement>Action</NextElement>
+            <NextElementOnEmptyLineTab>Parenthetical</NextElementOnEmptyLineTab>
+            <TabbingAfterTypingBehavior>NewElement</TabbingAfterTypingBehavior>
+            <NextElementOnTabAfterTyping>Parenthetical</NextElementOnTabAfterTyping>
+            <AutoCompleteList/>
+        </Element>
+        <Element>
+            <Title>Transition</Title>
+            <KeyEquivalent>t</KeyEquivalent>
+            <CharacterFormat>
+                <Font Name="Courier" Size="12"/>
+                <UnderlineStyle>None</UnderlineStyle>
+                <AllCaps>Yes</AllCaps>
+            </CharacterFormat>
+            <ParagraphFormat>
+                <Alignment>Right</Alignment>
+                <Spacing>1</Spacing>
+                <SpaceBefore>1</SpaceBefore>
+                <SpaceAfter>0</SpaceAfter>
+                <FirstLineIndent>4.5</FirstLineIndent>
+                <Indent>4.5</Indent>
+                <TailIndent>6.12014</TailIndent>
+                <FirstTab>0</FirstTab>
+                <FixedLineHeight>12</FixedLineHeight>
+            </ParagraphFormat>
+            <NextElement>Scene Heading</NextElement>
+            <NextElementOnEmptyLineTab>Scene Heading</NextElementOnEmptyLineTab>
+            <TabbingAfterTypingBehavior>NewElement</TabbingAfterTypingBehavior>
+            <NextElementOnTabAfterTyping>Scene Heading</NextElementOnTabAfterTyping>
+            <AutoCompleteList>
+                <Completions>
+                    <Completion NewLineAfter="Yes">FADE IN:</Completion>
+                    <Completion NewLineAfter="Yes">FADE OUT.</Completion>
+                    <Completion NewLineAfter="Yes">FADE TO:</Completion>
+                    <Completion NewLineAfter="Yes">FADE TO BLACK.</Completion>
+                    <Completion NewLineAfter="Yes">CUT TO:</Completion>
+                    <Completion NewLineAfter="Yes">DISSOLVE TO:</Completion>
+                    <Completion NewLineAfter="Yes">BACK TO:</Completion>
+                    <Completion NewLineAfter="Yes">MATCH CUT TO:</Completion>
+                    <Completion NewLineAfter="Yes">JUMP CUT TO:</Completion>
+                    <Completion NewLineAfter="Yes">INTERCUT WITH:</Completion>
+                </Completions>
+                <ProjectListAutoCompleteBehavior>GoToNextLine</ProjectListAutoCompleteBehavior>
+            </AutoCompleteList>
+        </Element>
+        <Element>
+            <Title>Shot</Title>
+            <KeyEquivalent>h</KeyEquivalent>
+            <CharacterFormat>
+                <Font Name="Courier" Size="12"/>
+                <UnderlineStyle>None</UnderlineStyle>
+                <AllCaps>Yes</AllCaps>
+            </CharacterFormat>
+            <ParagraphFormat>
+                <Alignment>Left</Alignment>
+                <Spacing>1</Spacing>
+                <SpaceBefore>2</SpaceBefore>
+                <SpaceAfter>0</SpaceAfter>
+                <FirstLineIndent>0.5</FirstLineIndent>
+                <Indent>0.5</Indent>
+                <TailIndent>6.5</TailIndent>
+                <FirstTab>0</FirstTab>
+                <FixedLineHeight>12</FixedLineHeight>
+            </ParagraphFormat>
+            <NextElement>Action</NextElement>
+            <NextElementOnEmptyLineTab>Shot</NextElementOnEmptyLineTab>
+            <TabbingAfterTypingBehavior>NewElement</TabbingAfterTypingBehavior>
+            <NextElementOnTabAfterTyping>Shot</NextElementOnTabAfterTyping>
+            <AutoCompleteList/>
+        </Element>
+    </ScriptElements>
+</ScrivenerScriptFormat>
