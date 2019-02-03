@@ -5,9 +5,9 @@ Writing a PhD thesis is convenient in scrivener (not to mention fun), but it is 
 
 ## Running the example repository
 ### Requirements
-    - Install python 3 (figure out for your specific operating system)
-    - Ensure pdfcrop is installed for your specific operating system (generally automatically installed in ubuntu and MacOSx).
-    - Add styles package to the latex input path. In ubuntu and linux add this line to your bashrc (or zshrc): `export TEXINPUTS=:/home/user/scrivener-latex/styles`
+- Install python 3 (figure out for your specific operating system)
+- Ensure pdfcrop is installed for your specific operating system (generally automatically installed in ubuntu and MacOSx).
+- Install pandoc (https://pandoc.org/installing.html)
 
 
 ## Setting up scrivener
