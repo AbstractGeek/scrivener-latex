@@ -7,7 +7,7 @@ Writing a PhD thesis is convenient in scrivener (not to mention fun), but it is 
 ### Requirements
     - Install python 3 (figure out for your specific operating system)
     - Ensure pdfcrop is installed for your specific operating system (generally automatically installed in ubuntu and MacOSx).
-    - Install fltpage package (provided in the package folder). 
+    - Add styles package to the latex input path. In ubuntu and linux add this line to your bashrc (or zshrc): `export TEXINPUTS=:/home/user/scrivener-latex/styles`
 
 
 ## Setting up scrivener
