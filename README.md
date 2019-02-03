@@ -3,6 +3,13 @@
 Writing a PhD thesis is convenient in scrivener (not to mention fun), but it is hard to format it later. Latex is perfect to beautify the thesis, but hard to write a thesis in without getting caught up in formating. I came up with workflow while working on my thesis to get the best of both worlds. Enjoy!
 
 
+## Running the example repository
+### Requirements
+    - Install python 3 (figure out for your specific operating system)
+    - Ensure pdfcrop is installed for your specific operating system (generally automatically installed in ubuntu and MacOSx).
+    - Install fltpage package (provided in the package folder). 
+
+
 ## Setting up scrivener
 Here is how you set up scrivener when you begin you thesis (check the thesis-example.scriv for more details).
 
@@ -18,6 +25,7 @@ Here is how you set up scrivener when you begin you thesis (check the thesis-exa
 ![](https://raw.githubusercontent.com/AbstractGeek/scrivener-latex/master/scrivener-customization/scrivener-latex-text.png "scrivener latex reference text")
 
 4. Use the scrivener-latex.scrformat in scrivener-customization to compile. Import it, compile for mmd, and assign section headers as "MAIN text formatting ..." (see figure below). Compile to generate mmds that can be used convert to latex and pdf files.
+
 ![](https://raw.githubusercontent.com/AbstractGeek/scrivener-latex/master/scrivener-customization/scrivener-compile-settings.png "scrivener compile settings")
 
 
