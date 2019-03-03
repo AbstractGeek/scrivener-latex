@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScrivenerProject Template="No" Version="2.0" Identifier="070F871E-7615-4B31-B212-B370E2549BB4" Creator="SCRWIN-2.9.0.12" Device="amaterasu" Modified="2019-01-23 21:12:18 +0530" ModID="90E28C93-A11E-4AE8-8C9A-A979388B7716">
+<ScrivenerProject Template="No" Version="2.0" Identifier="477D0230-0A12-47EA-92CF-E821CA46845C" Creator="SCRWIN-2.9.0.12" Device="amaterasu" Modified="2019-01-23 23:48:00 +0530" ModID="90E28C93-A11E-4AE8-8C9A-A979388B7716">
     <Binder>
         <BinderItem UUID="E85B58D4-A154-4923-B21F-50DE629C86C1" Type="Text" Created="2007-03-26 02:18:19 +0530" Modified="2014-05-23 15:52:07 +0530">
             <Title>Non-Fiction Format</Title>
@@ -22,13 +22,13 @@
                     <ItemID>B776C532-B14B-439B-81C8-D2396271511B</ItemID>
                 </OutlinerExpandedState>
                 <OutlinerExpandedState>
+                    <ItemID>BCD0C532-FFD3-4F53-B8D4-7B2612656980</ItemID>
+                </OutlinerExpandedState>
+                <OutlinerExpandedState>
                     <ItemID>D3CE9386-07B9-44A2-B963-0E3C130FF8AD</ItemID>
                 </OutlinerExpandedState>
                 <OutlinerExpandedState>
                     <ItemID>61520D82-ACD7-460E-A0A1-519CEABB163C</ItemID>
-                </OutlinerExpandedState>
-                <OutlinerExpandedState>
-                    <ItemID>BCD0C532-FFD3-4F53-B8D4-7B2612656980</ItemID>
                 </OutlinerExpandedState>
                 <CorkboardSettings>
                     <Arrangement>Linear</Arrangement>
@@ -59,7 +59,7 @@
                                 <IncludeInCompile>Yes</IncludeInCompile>
                             </MetaData>
                             <TextSettings>
-                                <TextSelection>622,0</TextSelection>
+                                <TextSelection Caret="52">0,52</TextSelection>
                             </TextSettings>
                         </BinderItem>
                         <BinderItem UUID="7031D787-6B71-4FFD-9F70-D50BBC3E123F" Type="Text" Created="2019-01-22 20:37:04 +0530" Modified="2019-01-23 21:09:25 +0530">
@@ -414,7 +414,7 @@
     <ProjectTargets Notify="Yes">
         <DraftTarget Type="Words" CountIncludedOnly="Yes" CurrentCompileGroupOnly="Yes" Deadline="2011-04-12 13:24:39 +0100" IgnoreDeadline="Yes">0</DraftTarget>
         <SessionTarget Type="Words" CountDraftOnly="Yes" AllowNegatives="No" ResetType="Time" ResetTime="00:00" DeterminedFromDeadline="No" CanWriteOnDeadlineDate="No" WritingDays="">0</SessionTarget>
-        <PreviousSession Words="4414" Characters="25911" Date="2019-01-23 21:12:18 +0530"/>
+        <PreviousSession Words="4414" Characters="25911" Date="2019-01-23 23:48:00 +0530"/>
     </ProjectTargets>
     <RecentWritingHistory Date="2019-01-23 20:30:56 +0530">
         <DraftWordCount>3</DraftWordCount>
