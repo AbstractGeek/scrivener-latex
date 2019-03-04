@@ -361,7 +361,7 @@
 \pgnrestart\pgnstarts0
 \pard\plain \ltrch\loch {Attributes}}]]></Format>
             <RawMarkup>Yes</RawMarkup>
-            <Prefix><![CDATA[#####]]></Prefix>
+            <Prefix><![CDATA[##### ]]></Prefix>
             <Suffix><![CDATA[\newline]]></Suffix>
         </Style>
         <Style Name="Title" ID="B2E965E5-3A97-43F9-8DD8-183AD3BCFA98" Type="Para+Char" FontChange="Size">

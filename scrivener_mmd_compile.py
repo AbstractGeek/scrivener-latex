@@ -243,16 +243,16 @@ def main():
         split_figure_tex(figure_tex_content, args.tex_folder)
 
         # Generate docx file from multimarkdown
-        subprocess.run(["pandoc", "-s", "-S", "--normalize",
-                        "--bibliography", "--latex-engine=lualatex",
+        subprocess.run(["pandoc", "-s",
+                        "--bibliography", "--pdf-engine=lualatex",
                         args.bibfile, "--toc",
-                        "-f", "markdown", "-t", "docx",
+                        "-f", "markdown+smart", "-t", "docx",
                         "-o", args.outfile + ".docx", args.mmd[0]])
 
         # Generate temp tex file
-        subprocess.run(["pandoc", "-s", "-S", "--normalize",
-                        "--natbib", "--latex-engine=lualatex", "-f",
-                        "markdown", "-t", "latex",
+        subprocess.run(["pandoc", "-s", 
+                        "--natbib", "--pdf-engine=lualatex", "-f",
+                        "markdown+smart", "-t", "latex",
                         "-o", "scrivener_mmd_compile_temp.tex", args.mmd[0],
                         "--variable", "documentclass=report"])
 

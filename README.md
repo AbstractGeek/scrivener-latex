@@ -5,14 +5,16 @@ Writing a PhD thesis is convenient in scrivener (not to mention fun), but it is 
 
 ## Running the example repository
 ### Requirements
-- Install python 3 (figure out for your specific operating system)
-- Install latex (texlive-latex-extra and texlive-extra-utils).
+- Install python 3 (figure out for your specific operating system).
+- Install latex (texlive-latex-extra, texlive-extra-utils, texlive-science, and texlive-luatex).
 - Ensure pdfcrop is installed for your specific operating system (generally automatically installed in ubuntu and MacOSx if the above latex packages are installed).
-- Install pandoc (https://pandoc.org/installing.html).
+- Install pandoc (https://pandoc.org/installing.html; atleast 2.6).
 
 ### Testing the example repository
-(to be added)
-
+- Download this repository (`git clone git@github.com:AbstractGeek/scrivener-latex.git`).
+- Travel to this repository via commandline.
+- Run `./scrivener_mmd_compile.py my-thesis.mmd`
+- The pdf should be generated without any errors.
 
 ## Setting up scrivener
 Here is how you set up scrivener when you begin you thesis (check the thesis-example.scriv for more details).
@@ -31,6 +33,8 @@ Here is how you set up scrivener when you begin you thesis (check the thesis-exa
 4. Use the scrivener-latex.scrformat in scrivener-customization to compile. Import it, compile for mmd, and assign section headers as "MAIN text formatting ..." (see figure below). Compile to generate mmds that can be used convert to latex and pdf files.
 
 ![](https://raw.githubusercontent.com/AbstractGeek/scrivener-latex/master/scrivener-customization/scrivener-compile-settings.png "scrivener compile settings")
+
+5. For chapter titles - name the folder (with the short title in the `\markedchapter`). Section titles are simply the title of the text file in the folder. Subsections are titles inside the text. Subsubsections are heading 1, then heading 2. Use them wisely. Also note that for proper conversion into titles subtitles etc, the text should be spaced by spaces with the 'no style' style (annoying, i know). Easiest is to set everything to no style, type everything and made titles, headings etc in the end; that way all the enters and spaces are by default in 'no style'.
 
 
 ## Generating and referring figures

@@ -1,52 +1,64 @@
-\documentclass[]{report}
+\PassOptionsToPackage{unicode=true}{hyperref} % options for packages loaded elsewhere
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{report}
 \usepackage{lmodern}
 \usepackage{amssymb,amsmath}
 \usepackage{ifxetex,ifluatex}
-\usepackage{fixltx2e} % provides \textsubscript
 \ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
   \usepackage[T1]{fontenc}
   \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provides euro and other symbols
 \else % if luatex or xelatex
-  \ifxetex
-    \usepackage{mathspec}
-  \else
-    \usepackage{fontspec}
-  \fi
-  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
 \fi
 % use upquote if available, for straight quotes in verbatim environments
 \IfFileExists{upquote.sty}{\usepackage{upquote}}{}
-% use microtype if available
-\IfFileExists{microtype.sty}{%
-\usepackage{microtype}
-\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
 }{}
-\usepackage{hyperref}
-\hypersetup{unicode=true,
-            pdfborder={0 0 0},
-            breaklinks=true}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdfborder={0 0 0},
+  breaklinks=true}
 \urlstyle{same}  % don't use monospace font for urls
-\usepackage{natbib}
-\bibliographystyle{plainnat}
-\IfFileExists{parskip.sty}{%
-\usepackage{parskip}
-}{% else
-\setlength{\parindent}{0pt}
-\setlength{\parskip}{6pt plus 2pt minus 1pt}
-}
 \setlength{\emergencystretch}{3em}  % prevent overfull lines
 \providecommand{\tightlist}{%
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
-\setcounter{secnumdepth}{0}
+\setcounter{secnumdepth}{-2}
 % Redefines (sub)paragraphs to behave more like sections
 \ifx\paragraph\undefined\else
-\let\oldparagraph\paragraph
-\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+  \let\oldparagraph\paragraph
+  \renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
 \fi
 \ifx\subparagraph\undefined\else
-\let\oldsubparagraph\subparagraph
-\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+  \let\oldsubparagraph\subparagraph
+  \renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
 \fi
+
+% set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+
+\usepackage[]{natbib}
+\bibliographystyle{plainnat}
 
 \date{}
 
@@ -57,10 +69,12 @@ Author:
 
 \markedchapter{Lorem Ipsum}{Introduction: Lorem Ipsum}\label{chapter-1}
 
-\section{Section}\label{section-1.1}
+\hypertarget{section-1.1}{%
+\section{Section}\label{section-1.1}}
 
+\hypertarget{eaque-ipsa-quae-ab-illo-inventore-veritatis-et-quasi.}{%
 \subsection{Eaque ipsa quae ab illo inventore veritatis et
-quasi.}\label{eaque-ipsa-quae-ab-illo-inventore-veritatis-et-quasi.}
+quasi.}\label{eaque-ipsa-quae-ab-illo-inventore-veritatis-et-quasi.}}
 
 Qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit
 amet, consectetur adipisicing elit. Non numquam eius modi tempora
@@ -69,13 +83,14 @@ ad minim veniam, quis nostrud exercitation ullamco
 \citep{Zongkerchicken2005}. \textbf{Sed ut perspiciatis unde omnis iste
 natus error sit voluptatem.} \emph{Facere possimus, omnis voluptas
 assumenda est, omnis dolor repellendus.} Facere possimus, omnis voluptas
-assumenda est, omnis dolor repellendus. ??\citep{upper1974unsuccessful}
+assumenda est, omnis dolor repellendus \citep{upper1974unsuccessful}.
 
 \input{figures/texs/fig:c1.tex}
 
+\hypertarget{neque-porro-quisquam-est-qui-dolorem-ipsum-quia-dolor-sit-amet-consectetur-adipisci-velit.}{%
 \subsubsection{Neque porro quisquam est, qui dolorem ipsum quia dolor
 sit amet, consectetur, adipisci
-velit.}\label{neque-porro-quisquam-est-qui-dolorem-ipsum-quia-dolor-sit-amet-consectetur-adipisci-velit.}
+velit.}\label{neque-porro-quisquam-est-qui-dolorem-ipsum-quia-dolor-sit-amet-consectetur-adipisci-velit.}}
 
 Laboris nisi ut aliquip ex ea commodo consequat. Accusantium doloremque
 laudantium, totam rem aperiam, eaque ipsa quae ab illo. Fugiat quo
@@ -83,8 +98,11 @@ voluptas nulla pariatur? Totam rem aperiam. At vero eos et accusamus. Et
 harum quidem rerum facilis est et expedita distinctio. Et iusto odio
 dignissimos ducimus qui blanditiis praesentium voluptatum deleniti
 atque. Et harum quidem rerum facilis est et expedita distinctio.
-\#\#\#\#\#Et harum quidem rerum facilis est et expedita
-distinctio.\newline
+
+\hypertarget{et-harum-quidem-rerum-facilis-est-et-expedita-distinctio.}{%
+\paragraph{\texorpdfstring{Et harum quidem rerum facilis est et expedita
+distinctio.\newline}{Et harum quidem rerum facilis est et expedita distinctio.}}\label{et-harum-quidem-rerum-facilis-est-et-expedita-distinctio.}}
+
 Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet,
 consectetur, adipisci velit. Animi, id est laborum et dolorum fuga.
 Inventore veritatis et quasi architecto beatae vitae dicta sunt
@@ -131,10 +149,12 @@ laborum et dolorum fuga. Ut enim ad minima veniam, quis nostrum
 exercitationem ullam corporis suscipit laboriosam. Architecto beatae
 vitae dicta sunt explicabo.
 
-\section{Section}\label{section-1.2}
+\hypertarget{section-1.2}{%
+\section{Section}\label{section-1.2}}
 
+\hypertarget{nihil-molestiae-consequatur-vel-illum-qui-dolorem-eum.}{%
 \subsection{Nihil molestiae consequatur, vel illum qui dolorem
-eum.}\label{nihil-molestiae-consequatur-vel-illum-qui-dolorem-eum.}
+eum.}\label{nihil-molestiae-consequatur-vel-illum-qui-dolorem-eum.}}
 
 Ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis
 doloribus asperiores repellat. Et iusto odio dignissimos ducimus qui
@@ -143,15 +163,24 @@ incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
 quis nostrud exercitation ullamco. \textbf{Eaque ipsa quae ab illo
 inventore veritatis et quasi.} \emph{Animi, id est laborum et dolorum
 fuga.} Accusantium doloremque laudantium, totam rem aperiam, eaque ipsa
-quae ab illo. \#\#\#\# Laboris nisi ut aliquip ex ea commodo consequat.
+quae ab illo.
+
+\hypertarget{laboris-nisi-ut-aliquip-ex-ea-commodo-consequat.}{%
+\subsubsection{Laboris nisi ut aliquip ex ea commodo
+consequat.}\label{laboris-nisi-ut-aliquip-ex-ea-commodo-consequat.}}
+
 Do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 Temporibus autem quibusdam et aut officiis debitis aut rerum
 necessitatibus saepe eveniet ut et voluptates repudiandae sint et
 molestiae non recusandae. Cupiditate non provident, similique sunt in
 culpa qui officia deserunt mollitia. Laboris nisi ut aliquip ex ea
-commodo consequat. Totam rem aperiam. \#\#\#\#\#Nam libero tempore, cum
-soluta nobis est eligendi optio cumque nihil impedit quo minus id quod
-maxime placeat.\newline
+commodo consequat. Totam rem aperiam.
+
+\hypertarget{nam-libero-tempore-cum-soluta-nobis-est-eligendi-optio-cumque-nihil-impedit-quo-minus-id-quod-maxime-placeat.}{%
+\paragraph{\texorpdfstring{Nam libero tempore, cum soluta nobis est
+eligendi optio cumque nihil impedit quo minus id quod maxime
+placeat.\newline}{Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat.}}\label{nam-libero-tempore-cum-soluta-nobis-est-eligendi-optio-cumque-nihil-impedit-quo-minus-id-quod-maxime-placeat.}}
+
 Esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
 cupidatat non proident, sunt in culpa. Nihil molestiae consequatur, vel
 illum qui dolorem eum. Corrupti quos dolores et quas molestias excepturi
@@ -198,9 +227,11 @@ veritatis et quasi.
 
 \markedchapter{Futurama}{Ode to futurama}\label{chapter-2}
 
-\section{Section}\label{section-2.1}
+\hypertarget{section-2.1}{%
+\section{Section}\label{section-2.1}}
 
-\subsection{I'm a thing.}\label{im-a-thing.}
+\hypertarget{im-a-thing.}{%
+\subsection{I'm a thing.}\label{im-a-thing.}}
 
 No argument here. When will that be? Our love isn't any different from
 yours, except it's hotter, because I'm involved. One hundred dollars. As
@@ -212,19 +243,20 @@ luck with that \citep{Zongkerchicken2005}.
 
 \input{figures/texs/fig:c2.tex}
 
+\hypertarget{oh-dear-shes-stuck-in-an-infinite-loop-and-hes-an-idiot-well-thats-love-for-you.}{%
 \paragraph{\texorpdfstring{Oh dear! She's stuck in an infinite loop, and
-he's an idiot! Well, that's love for you.\newline
+he's an idiot! Well, that's love for
+you.\newline}{Oh dear! She's stuck in an infinite loop, and he's an idiot! Well, that's love for you.}}\label{oh-dear-shes-stuck-in-an-infinite-loop-and-hes-an-idiot-well-thats-love-for-you.}}
+
 Oh no! The professor will hit me! But if Zoidberg `fixes' it\ldots{}
 then perhaps gifts! We need rest. The spirit is willing, but the flesh
 is spongy and bruised. Bender, I didn't know you liked cooking. That's
-so
-cute.}{Oh dear! She's stuck in an infinite loop, and he's an idiot! Well, that's love for you.Oh no! The professor will hit me! But if Zoidberg fixes it\ldots{} then perhaps gifts! We need rest. The spirit is willing, but the flesh is spongy and bruised. Bender, I didn't know you liked cooking. That's so cute.}}\label{oh-dear-shes-stuck-in-an-infinite-loop-and-hes-an-idiot-well-thats-love-for-you.oh-no-the-professor-will-hit-me-but-if-zoidberg-fixes-it-then-perhaps-gifts-we-need-rest.-the-spirit-is-willing-but-the-flesh-is-spongy-and-bruised.-bender-i-didnt-know-you-liked-cooking.-thats-so-cute.}
+so cute. There's no part of that sentence I didn't like! We're also
+Santa Claus! Moving along\ldots{}
 
-There's no part of that sentence I didn't like! We're also Santa Claus!
-Moving along\ldots{}
-
+\hypertarget{you-lived-before-you-met-me}{%
 \subsubsection{You lived before you met
-me?!}\label{you-lived-before-you-met-me}
+me?!}\label{you-lived-before-you-met-me}}
 
 Why would I want to know that? Oh, how awful. Did he at least die
 painlessly? \ldots{}To shreds, you say. Well, how is his wife holding
@@ -268,11 +300,13 @@ out, y'all. Everyone who was invited is here. I'm just glad my fat, ugly
 mama isn't alive to see this day. I just told you! You've killed me! No,
 I'm Santa Claus!
 
-\section{Section}\label{section-2.2}
+\hypertarget{section-2.2}{%
+\section{Section}\label{section-2.2}}
 
+\hypertarget{ok-this-has-gotta-stop.-im-going-to-remind-fry-of-his-humanity-the-way-only-a-woman-can.}{%
 \subsection{OK, this has gotta stop. I'm going to remind Fry of his
 humanity the way only a woman
-can.}\label{ok-this-has-gotta-stop.-im-going-to-remind-fry-of-his-humanity-the-way-only-a-woman-can.}
+can.}\label{ok-this-has-gotta-stop.-im-going-to-remind-fry-of-his-humanity-the-way-only-a-woman-can.}}
 
 Then we'll go with that data file! No, she'll probably make me do it.
 They're like sex, except I'm having them! What are their names? Alright,
@@ -280,16 +314,25 @@ let's mafia things up a bit. Joey, burn down the ship. Clamps, burn down
 the crew. No, she'll probably make me do it. \textbf{Okay, it's 500
 dollars, you have no choice of carrier, the battery can't hold the
 charge and the reception isn't very\ldots{} Bender, hurry!} \emph{This
-fuel's expensive!} Also, we're dying! \#\#\#\# But I know you in the
-future. I cleaned your poop. Kif, I have mated with a woman. Inform the
-men. We'll need to have a look inside you with this camera. And then the
-battle's not so bad? Ow, my spirit! Yes, if you make it look like an
-electrical fire. When you do things right, people won't be sure you've
-done anything at all. Why am I sticky and naked? Did I miss something
-fun? For one beautiful night I knew what it was like to be a
-grandmother. Subjugated, yet honored. When the lights go out, it's
-nobody's business what goes on between two consenting adults.
-\#\#\#\#\#Why would a robot need to drink?\newline
+fuel's expensive!} Also, we're dying!
+
+\hypertarget{but-i-know-you-in-the-future.-i-cleaned-your-poop.}{%
+\subsubsection{But I know you in the future. I cleaned your
+poop.}\label{but-i-know-you-in-the-future.-i-cleaned-your-poop.}}
+
+Kif, I have mated with a woman. Inform the men. We'll need to have a
+look inside you with this camera. And then the battle's not so bad? Ow,
+my spirit! Yes, if you make it look like an electrical fire. When you do
+things right, people won't be sure you've done anything at all. Why am I
+sticky and naked? Did I miss something fun? For one beautiful night I
+knew what it was like to be a grandmother. Subjugated, yet honored. When
+the lights go out, it's nobody's business what goes on between two
+consenting adults.
+
+\hypertarget{why-would-a-robot-need-to-drink}{%
+\paragraph{\texorpdfstring{Why would a robot need to
+drink?\newline}{Why would a robot need to drink?}}\label{why-would-a-robot-need-to-drink}}
+
 I guess if you want children beaten, you have to do it yourself. Tell
 her you just want to talk. It has nothing to do with mating. Look,
 everyone wants to be like Germany, but do we really have the pure
@@ -334,27 +377,30 @@ pornography.
 
 \markedchapter{Doctor Who}{Verses from Doctor Who}\label{chapter-3}
 
-\section{Section}\label{section-3.1}
+\hypertarget{section-3.1}{%
+\section{Section}\label{section-3.1}}
 
-\subsection{\texorpdfstring{It's art! A statement on modern society, `Oh
-Ain't Modern Society
-Awful?'!}{It's art! A statement on modern society, Oh Ain't Modern Society Awful?!}}\label{its-art-a-statement-on-modern-society-oh-aint-modern-society-awful}
+\hypertarget{its-art-a-statement-on-modern-society-oh-aint-modern-society-awful}{%
+\subsection{It's art! A statement on modern society, `Oh Ain't Modern
+Society
+Awful?'!}\label{its-art-a-statement-on-modern-society-oh-aint-modern-society-awful}}
 
 They're not aliens, they're Earth\ldots{}liens! Father Christmas. Santa
 Claus. Or as I've always known him: Jeff. You hate me; you want to kill
 me! Well, go on! Kill me! KILL ME! I'm nobody's taxi service; I'm not
 gonna be there to catch you every time you feel like jumping out of a
 spaceship. You know how I sometimes have really brilliant ideas? Aw,
-you're all Mr. \textbf{Grumpy Face today.} \emph{Sorry, checking all the
+you're all Mr.~\textbf{Grumpy Face today.} \emph{Sorry, checking all the
 water in this area; there's an escaped fish.} I'm nobody's taxi service;
 I'm not gonna be there to catch you every time you feel like jumping out
-of a spaceship .
+of a spaceship (Fig. \ref{fig:c3}).
 
 \input{figures/texs/fig:c3.tex}
 
+\hypertarget{im-the-doctor-im-worse-than-everyones-aunt.-catches-himself-and-that-is-not-how-im-introducing-myself.}{%
 \subsubsection{\texorpdfstring{I'm the Doctor, I'm worse than everyone's
 aunt. \emph{catches himself} And that is not how I'm introducing
-myself.}{I'm the Doctor, I'm worse than everyone's aunt. catches himself And that is not how I'm introducing myself.}}\label{im-the-doctor-im-worse-than-everyones-aunt.-catches-himself-and-that-is-not-how-im-introducing-myself.}
+myself.}{I'm the Doctor, I'm worse than everyone's aunt. catches himself And that is not how I'm introducing myself.}}\label{im-the-doctor-im-worse-than-everyones-aunt.-catches-himself-and-that-is-not-how-im-introducing-myself.}}
 
 You know when grown-ups tell you `everything's going to be fine' and you
 think they're probably lying to make you feel better? I hate yogurt.
@@ -362,8 +408,12 @@ It's just stuff with bits in. No, I'll fix it. I'm good at fixing rot.
 Call me the Rotmeister. No, I'm the Doctor. Don't call me the
 Rotmeister. No\ldots{} It's a thing; it's like a plan, but with more
 greatness. Sorry, checking all the water in this area; there's an
-escaped fish. Did I mention we have comfy chairs? \#\#\#\#\#They're not
-aliens, they're Earth\ldots{}liens!\newline
+escaped fish. Did I mention we have comfy chairs?
+
+\hypertarget{theyre-not-aliens-theyre-earthliens}{%
+\paragraph{\texorpdfstring{They're not aliens, they're
+Earth\ldots{}liens!\newline}{They're not aliens, they're Earth\ldots{}liens!}}\label{theyre-not-aliens-theyre-earthliens}}
+
 You know when grown-ups tell you `everything's going to be fine' and you
 think they're probably lying to make you feel better? All I've got to do
 is pass as an ordinary human being. Simple. What could possibly go
@@ -373,7 +423,7 @@ Santa Claus. Or as I've always known him: Jeff. \emph{Insistently} Bow
 ties are cool! Come on Amy, I'm a normal bloke, tell me what normal
 blokes do! You hit me with a cricket bat. Stop talking, brain thinking.
 Hush. You know how I sometimes have really brilliant ideas? Saving the
-world with meals on wheels. Annihilate? No. No violence. I won't stand
+world with meals on wheels. Annihilate? No.~No violence. I won't stand
 for it. Not now, not ever, do you understand me?! I'm the Doctor, the
 Oncoming Storm - and you basically meant beat them in a football match,
 didn't you? Stop talking, brain thinking. Hush. No\ldots{} It's a thing;
@@ -409,18 +459,20 @@ way I see it, every life is a pile of good things and bad
 things.\ldots{}hey.\ldots{}the good things don't always soften the bad
 things; but vice-versa the bad things don't necessarily spoil the good
 things and make them unimportant. You've swallowed a planet! I am the
-Doctor, and you are the Daleks! Annihilate? No. No violence. I won't
+Doctor, and you are the Daleks! Annihilate? No.~No violence. I won't
 stand for it. Not now, not ever, do you understand me?! I'm the Doctor,
 the Oncoming Storm - and you basically meant beat them in a football
 match, didn't you?
 
-\section{Section}\label{section-3.2}
+\hypertarget{section-3.2}{%
+\section{Section}\label{section-3.2}}
 
+\hypertarget{the-way-i-see-it-every-life-is-a-pile-of-good-things-and-bad-things.hey.the-good-things-dont-always-soften-the-bad-things-but-vice-versa-the-bad-things-dont-necessarily-spoil-the-good-things-and-make-them-unimportant.}{%
 \subsection{The way I see it, every life is a pile of good things and
 bad things.\ldots{}hey.\ldots{}the good things don't always soften the
 bad things; but vice-versa the bad things don't necessarily spoil the
 good things and make them
-unimportant.}\label{the-way-i-see-it-every-life-is-a-pile-of-good-things-and-bad-things.hey.the-good-things-dont-always-soften-the-bad-things-but-vice-versa-the-bad-things-dont-necessarily-spoil-the-good-things-and-make-them-unimportant.}
+unimportant.}\label{the-way-i-see-it-every-life-is-a-pile-of-good-things-and-bad-things.hey.the-good-things-dont-always-soften-the-bad-things-but-vice-versa-the-bad-things-dont-necessarily-spoil-the-good-things-and-make-them-unimportant.}}
 
 Saving the world with meals on wheels. No\ldots{} It's a thing; it's
 like a plan, but with more greatness. They're not aliens, they're
@@ -431,70 +483,85 @@ spoil the good things and make them unimportant. I'm the Doctor, I'm
 worse than everyone's aunt. \emph{catches himself} And that is not how
 I'm introducing myself. I am the Doctor, and you are the Daleks!
 Heh-haa! \textbf{Super squeaky bum time!} \emph{Aw, you're all Mr.}
-Grumpy Face today. \#\#\#\# No, I'll fix it. I'm good at fixing rot.
-Call me the Rotmeister. No, I'm the Doctor. Don't call me the
-Rotmeister. I'm the Doctor. Well, they call me the Doctor. I don't know
-why. I call me the Doctor too. I still don't know why. Annihilate? No.
-No violence. I won't stand for it. Not now, not ever, do you understand
-me?! I'm the Doctor, the Oncoming Storm - and you basically meant beat
-them in a football match, didn't you? I hate yogurt. It's just stuff
-with bits in. I'm the Doctor, I'm worse than everyone's aunt.
-\emph{catches himself} And that is not how I'm introducing myself. It's
-a fez. I wear a fez now. Fezes are cool. \textbf{You hate me; you want
-to kill me! Well, go on! Kill me! KILL ME!} Saving the world with meals
-on wheels. You know how I sometimes have really brilliant ideas? You
-hate me; you want to kill me! Well, go on! Kill me! KILL ME! No\ldots{}
-It's a thing; it's like a plan, but with more greatness. No\ldots{} It's
-a thing; it's like a plan, but with more greatness. You know how I
-sometimes have really brilliant ideas? It's art! A statement on modern
-society, `Oh Ain't Modern Society Awful?'! Heh-haa! Super squeaky bum
-time! You've swallowed a planet! I'm the Doctor. Well, they call me the
-Doctor. I don't know why. I call me the Doctor too. I still don't know
-why. No\ldots{} It's a thing; it's like a plan, but with more greatness.
-You've swallowed a planet! Heh-haa! Super squeaky bum time! I'm the
-Doctor, I'm worse than everyone's aunt. \emph{catches himself} And that
-is not how I'm introducing myself. You know when grown-ups tell you
-`everything's going to be fine' and you think they're probably lying to
-make you feel better? All I've got to do is pass as an ordinary human
-being. Simple. What could possibly go wrong? You know how I sometimes
-have really brilliant ideas? You've swallowed a planet! I'm nobody's
-taxi service; I'm not gonna be there to catch you every time you feel
-like jumping out of a spaceship. Saving the world with meals on wheels.
-You know when grown-ups tell you `everything's going to be fine' and you
-think they're probably lying to make you feel better? Did I mention we
-have comfy chairs? No\ldots{} It's a thing; it's like a plan, but with
-more greatness. Stop talking, brain thinking. Hush. Sorry, checking all
-the water in this area; there's an escaped fish. Saving the world with
-meals on wheels. The way I see it, every life is a pile of good things
-and bad things.\ldots{}hey.\ldots{}the good things don't always soften
-the bad things; but vice-versa the bad things don't necessarily spoil
-the good things and make them unimportant. Annihilate? No. No violence.
+Grumpy Face today.
+
+\hypertarget{no-ill-fix-it.-im-good-at-fixing-rot.-call-me-the-rotmeister.-no-im-the-doctor.-dont-call-me-the-rotmeister.}{%
+\subsubsection{No, I'll fix it. I'm good at fixing rot. Call me the
+Rotmeister. No, I'm the Doctor. Don't call me the
+Rotmeister.}\label{no-ill-fix-it.-im-good-at-fixing-rot.-call-me-the-rotmeister.-no-im-the-doctor.-dont-call-me-the-rotmeister.}}
+
+I'm the Doctor. Well, they call me the Doctor. I don't know why. I call
+me the Doctor too. I still don't know why. Annihilate? No.~No violence.
 I won't stand for it. Not now, not ever, do you understand me?! I'm the
 Doctor, the Oncoming Storm - and you basically meant beat them in a
-football match, didn't you? You've swallowed a planet! You know how I
-sometimes have really brilliant ideas? You hate me; you want to kill me!
-Well, go on! Kill me! KILL ME! Did I mention we have comfy chairs? Aw,
-you're all Mr.~Grumpy Face today. I am the Doctor, and you are the
-Daleks! I hate yogurt. It's just stuff with bits in. It's a fez. I wear
-a fez now. Fezes are cool. You've swallowed a planet! You hit me with a
-cricket bat. Aw, you're all Mr.~Grumpy Face today. You hit me with a
-cricket bat. All I've got to do is pass as an ordinary human being.
-Simple. What could possibly go wrong? Aw, you're all Mr.~Grumpy Face
-today. I am the Doctor, and you are the Daleks! Saving the world with
-meals on wheels. You know how I sometimes have really brilliant ideas?
-I'm nobody's taxi service; I'm not gonna be there to catch you every
-time you feel like jumping out of a spaceship. I hate yogurt. It's just
-stuff with bits in. No\ldots{} It's a thing; it's like a plan, but with
-more greatness. I hate yogurt. It's just stuff with bits in. They're not
-aliens, they're Earth\ldots{}liens!
+football match, didn't you? I hate yogurt. It's just stuff with bits in.
+I'm the Doctor, I'm worse than everyone's aunt. \emph{catches himself}
+And that is not how I'm introducing myself. It's a fez. I wear a fez
+now. Fezes are cool.
+
+\hypertarget{you-hate-me-you-want-to-kill-me-well-go-on-kill-me-kill-me}{%
+\subsubsection{You hate me; you want to kill me! Well, go on! Kill me!
+KILL
+ME!}\label{you-hate-me-you-want-to-kill-me-well-go-on-kill-me-kill-me}}
+
+Saving the world with meals on wheels. You know how I sometimes have
+really brilliant ideas? You hate me; you want to kill me! Well, go on!
+Kill me! KILL ME! No\ldots{} It's a thing; it's like a plan, but with
+more greatness. No\ldots{} It's a thing; it's like a plan, but with more
+greatness. You know how I sometimes have really brilliant ideas? It's
+art! A statement on modern society, `Oh Ain't Modern Society Awful?'!
+Heh-haa! Super squeaky bum time! You've swallowed a planet! I'm the
+Doctor. Well, they call me the Doctor. I don't know why. I call me the
+Doctor too. I still don't know why. No\ldots{} It's a thing; it's like a
+plan, but with more greatness. You've swallowed a planet! Heh-haa! Super
+squeaky bum time! I'm the Doctor, I'm worse than everyone's aunt.
+\emph{catches himself} And that is not how I'm introducing myself. You
+know when grown-ups tell you `everything's going to be fine' and you
+think they're probably lying to make you feel better? All I've got to do
+is pass as an ordinary human being. Simple. What could possibly go
+wrong? You know how I sometimes have really brilliant ideas? You've
+swallowed a planet! I'm nobody's taxi service; I'm not gonna be there to
+catch you every time you feel like jumping out of a spaceship. Saving
+the world with meals on wheels. You know when grown-ups tell you
+`everything's going to be fine' and you think they're probably lying to
+make you feel better? Did I mention we have comfy chairs? No\ldots{}
+It's a thing; it's like a plan, but with more greatness. Stop talking,
+brain thinking. Hush. Sorry, checking all the water in this area;
+there's an escaped fish. Saving the world with meals on wheels. The way
+I see it, every life is a pile of good things and bad
+things.\ldots{}hey.\ldots{}the good things don't always soften the bad
+things; but vice-versa the bad things don't necessarily spoil the good
+things and make them unimportant. Annihilate? No.~No violence. I won't
+stand for it. Not now, not ever, do you understand me?! I'm the Doctor,
+the Oncoming Storm - and you basically meant beat them in a football
+match, didn't you? You've swallowed a planet! You know how I sometimes
+have really brilliant ideas? You hate me; you want to kill me! Well, go
+on! Kill me! KILL ME! Did I mention we have comfy chairs? Aw, you're all
+Mr.~Grumpy Face today. I am the Doctor, and you are the Daleks! I hate
+yogurt. It's just stuff with bits in. It's a fez. I wear a fez now.
+Fezes are cool. You've swallowed a planet! You hit me with a cricket
+bat. Aw, you're all Mr.~Grumpy Face today. You hit me with a cricket
+bat. All I've got to do is pass as an ordinary human being. Simple. What
+could possibly go wrong? Aw, you're all Mr.~Grumpy Face today. I am the
+Doctor, and you are the Daleks! Saving the world with meals on wheels.
+You know how I sometimes have really brilliant ideas? I'm nobody's taxi
+service; I'm not gonna be there to catch you every time you feel like
+jumping out of a spaceship. I hate yogurt. It's just stuff with bits in.
+No\ldots{} It's a thing; it's like a plan, but with more greatness. I
+hate yogurt. It's just stuff with bits in. They're not aliens, they're
+Earth\ldots{}liens!
 
 \markedchapter{Discussion}{Discussion}\label{chapter-4}
 
-\section{Section}\label{section-4.1}
+\hypertarget{section-4.1}{%
+\section{Section}\label{section-4.1}}
 
 \chapter[Appendix-1]{Appendix-1}\label{appendix-1}
+
 \chapter[Appendix-2]{Appendix-2}\label{appendix-2}
+
 \chapter[Appendix-3]{Appendix-3}\label{appendix-3}
+
 \chapter[Appendix-4]{Appendix-4}\label{appendix-4}
 
 \end{document}
