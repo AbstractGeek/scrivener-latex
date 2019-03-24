@@ -9,24 +9,17 @@ textEditor="Scrivener" # Replace "Scrivener" with the name of your preferred tex
 CAYW_URL="http://localhost:23119/better-bibtex/cayw?format=pandoc" # Edit the URL as needed for a different citation marker format.
 LOG=/home/dinesh/Logs/zotpickpd.log
 
-#widTE=$(xdotool search --onlyvisible $textEditor 2>/dev/null | head -1)
-widTE=$(xdotool getactivewindow)
-
-if ! [ $widTE ]; then
-		notify-send "Please open $textEditor and try again, or edit the Zotpicknix script file to specify a different text editor."
-		exit 3;
-fi
-
 BBT_status=$(/usr/bin/curl --noproxy "*" 'http://localhost:23119/better-bibtex/cayw?probe=probe' 2>/dev/null)
 
 if [ "$BBT_status" == "ready" ] 2>/dev/null; then
 		notify-send "Accessing Zotero picker..."
 		citation=$(/usr/bin/curl --noproxy "*"  $CAYW_URL 2>/dev/null)
 
-echo $citation | xclip -selection c
-
-#setxkbmap en_us
-#xdotool windowactivate $widTE && xdotool type --window $widTE --delay 40 "$citation" # Long delay minimises xdotool errors
+		if [[ "$(uname)" =~ Darwin ]]; then 
+		  echo $citation | pbcopy -selection c
+		else 
+		  echo $citation | xclip -selection c
+		fi
 
 		exit 0;
 

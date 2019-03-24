@@ -59,7 +59,20 @@ The above three steps sets up latex for placing the figures in the right positio
 
 
 ## Citing articles using zotero
-(to be added)
+### Requirements
+1. Zotero (reference manager used for managing literature) - https://www.zotero.org/
+2. Better bibtex addon for Zotero - https://github.com/retorquere/zotero-better-bibtex
+3. xclip/pbcopy (used to copy the reference into keyboard) - install using the os specific package manager
+4. curl - install using the os specific package manager
+
+### Assigning shortcuts and citing articles
+1. To cite articles run the zotpicknix-pd which is inside scrivener-customization folder (the file is modified from: https://emmareisz.github.io/zotpicknix/)
+2. Assign a shortcut that runs this file everytime it is pressed (ctrl+alt+z is mine for example).
+3. Everytime you add a citation, the reference is copied in the clipboard. To cite it in scriver, put it inside square brackets. It automatically separates them by semicolons if multiple references are cited. For example  [@rosenbluethRoleModelsScience1945] is the citation of the Rosenblueth and Wiener paper.
+4. Have fun add citations to your thesis.
+5. Export you library as better-bibtex file that can be used to compile your thesis (File -> Export library -> Follow the settings in the image). Best name it literature.bib for easy compatibility with the code (if you use different names, change in the main latex file, described as below).
+
+![](https://raw.githubusercontent.com/AbstractGeek/scrivener-latex/master/scrivener-customization/zotero-bibtex-export.png "Zotero better bibtex export")
 
 
 ## Modifying latex styling
