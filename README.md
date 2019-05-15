@@ -28,14 +28,15 @@ Here is how you set up scrivener when you begin you thesis (check the thesis-exa
 
 3. Add `\markedchapter{short title}{<$title>}\label{<$label>-<$position>}` to the start of the folder text (press the scrivenings view to add it to the folder). The first argument of the /markedchapter is a short title for the chapter that will be used for headers in the thesis. Similarly, add this `## <$title>{#<$label>-<$parentposition>.<$position>}` to the start of the text inside the folders (which becomes sections later; see image below). Both these additions is used the latex generation later, and creates easy labels for referencing chapters and sections inside text. For example chapter 1 can be referred by `\ref{chapter-1}` and section 1.1 can be referred by `\ref{section-1.1}`.
 
-![](https://raw.githubusercontent.com/AbstractGeek/scrivener-latex/master/scrivener-customization/scrivener-latex-text.png "scrivener latex reference text")
+![](https://raw.githubusercontent.com/AbstractGeek/scrivener-latex/master/scrivener-customization/scrivener-latex-text-1.png "scrivener latex reference text")
 
 4. Use the scrivener-latex.scrformat in scrivener-customization to compile. Import it, compile for mmd, and assign section headers as "MAIN text formatting ..." (see figure below). Compile to generate mmds that can be used convert to latex and pdf files.
 
 ![](https://raw.githubusercontent.com/AbstractGeek/scrivener-latex/master/scrivener-customization/scrivener-compile-settings.png "scrivener compile settings")
 
-5. For chapter titles - name the folder (with the short title in the `\markedchapter`). Section titles are simply the title of the text file in the folder. Subsections are titles inside the text. Subsubsections are heading 1, then heading 2. Use them wisely. Also note that for proper conversion into titles subtitles etc, the text should be spaced by spaces with the 'no style' style (annoying, i know). Easiest is to set everything to no style, type everything and made titles, headings etc in the end; that way all the enters and spaces are by default in 'no style'.
+5. For chapter titles - name the folder (with the short title in the `\markedchapter`). Section titles are simply the title of the text file in the folder. To assign subsections and subheadings first change the font to *Courier Prime*. Subsections are **Title** inside the text. Subsubsections are **heading 1**, then **heading 2**. Use them wisely. Also **note** that for proper conversion into titles subtitles etc, the text should be spaced by spaces with the 'no style' style (annoying, i know). Easiest is to set everything to no style, type everything and made titles, headings etc in the end; that way all the enters and spaces are by default in 'no style'.
 
+![](https://raw.githubusercontent.com/AbstractGeek/scrivener-latex/master/scrivener-customization/scrivener-latex-text-2.png "scrivener subheadings and subsections")
 
 ## Generating and referring figures
 This is the slightly tricky part of the thesis. Adding figures and referring them follows three major steps:
