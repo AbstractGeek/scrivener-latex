@@ -250,7 +250,7 @@ def main():
                         "-o", args.outfile + ".docx", args.mmd[0]])
 
         # Generate temp tex file
-        subprocess.run(["pandoc", "-s", 
+        subprocess.run(["pandoc", "-s",
                         "--natbib", "--pdf-engine=lualatex", "-f",
                         "markdown+smart", "-t", "latex",
                         "-o", "scrivener_mmd_compile_temp.tex", args.mmd[0],
@@ -286,7 +286,9 @@ def main():
         subprocess.run(["lualatex", args.outfile + '.tex'])
         # chapter specific bibliography
         if not args.one_bib:
-            files = glob(os.path.join(args.chapter_folder, '*.aux'))
+            chap_files = glob(os.path.join(args.chapter_folder, '*.aux'))
+            app_files = glob(os.path.join(args.appendix_folder, '*.aux'))
+            files = chap_files + app_files
             for f in files:
                 subprocess.run(["bibtex",
                                 os.path.relpath(f, args.location)])
