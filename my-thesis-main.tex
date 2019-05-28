@@ -40,7 +40,11 @@ openright, % Uncomment this for printing
 \newenvironment{MFPfigure}[1]
 	{\renewcommand{\figuretitle}{#1}
 	\begin{FPfigure}}
-	{\end{FPfigure}}	
+	{\end{FPfigure}}
+\newenvironment{Mtable}[1]
+	{\renewcommand{\figuretitle}{#1}
+	\begin{table}[htbp]}
+	{\end{table}}	
 \usepackage{subcaption}
 
 % Packages to make the thesis beautiful.

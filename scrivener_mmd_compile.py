@@ -55,11 +55,15 @@ def split_figure_tex(tex_content, dest):
     """Split figure tex file into individual files."""
     fig_start = sorted(
         find_in_texfile(tex_content, "\\begin{figure}", False) +
+        find_in_texfile(tex_content, "\\begin{table}", False) +
         find_in_texfile(tex_content, "\\begin{Mfigure}", False) +
+        find_in_texfile(tex_content, "\\begin{Mtable}", False) +
         find_in_texfile(tex_content, "\\begin{MFPfigure}", False))
     fig_end = sorted(
         find_in_texfile(tex_content, "\\end{figure}", False) +
+        find_in_texfile(tex_content, "\\end{table}", False) +
         find_in_texfile(tex_content, "\\end{Mfigure}", False) +
+        find_in_texfile(tex_content, "\\end{Mtable}", False) +
         find_in_texfile(tex_content, "\\end{MFPfigure}", False))
     label_lines = find_in_texfile(tex_content, "\\label{", False)
 
@@ -97,7 +101,7 @@ def split_figure_tex(tex_content, dest):
                 tex_file.writelines(tex_output)
 
 
-def split_chapters(tex_content, keyword, dest, location):
+def split_chapters(tex_content, keyword, dest, location, bib=True):
     """Split figure tex file into individual files."""
     chap_start = sorted(find_in_texfile(tex_content, "\chapter", False) +
                         find_in_texfile(tex_content, "\markedchapter", False))
@@ -119,8 +123,9 @@ def split_chapters(tex_content, keyword, dest, location):
     chap_start.append(len(tex_content))
     for i, tex in tex_names:
         tex_output = tex_content[chap_start[i]:chap_start[i + 1]] + ["\n"]
-        tex_output.append('\\input{helpers/bib}')
-        tex_output.append('\n')
+        if bib:
+            tex_output.append('\\input{helpers/bib}')
+            tex_output.append('\n')
         # Write complete tex file
         current_file = os.path.join(dest, keyword + tex)
         main_include_files.append("\\include{" +
@@ -272,7 +277,8 @@ def main():
                            'chapter', args.chapter_folder, args.location) + \
             ['\\begin{appendices} \n'] + \
             split_chapters(input_tex_content[doc_start + 1:doc_stop],
-                           'appendix', args.appendix_folder, args.location) + \
+                           'appendix', args.appendix_folder,
+                           args.location, False) + \
             ['\\end{appendices} \n']
         complete_tex_file = main_tex_content[:input_line] + \
             main_include_files + \
