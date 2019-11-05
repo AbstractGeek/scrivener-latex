@@ -57,13 +57,13 @@ def split_figure_tex(tex_content, dest):
         find_in_texfile(tex_content, "\\begin{figure}", False) +
         find_in_texfile(tex_content, "\\begin{table}", False) +
         find_in_texfile(tex_content, "\\begin{Mfigure}", False) +
-        find_in_texfile(tex_content, "\\begin{Mtable}", False) +
+        find_in_texfile(tex_content, "\\begin{longtable}", False) +
         find_in_texfile(tex_content, "\\begin{MFPfigure}", False))
     fig_end = sorted(
         find_in_texfile(tex_content, "\\end{figure}", False) +
         find_in_texfile(tex_content, "\\end{table}", False) +
         find_in_texfile(tex_content, "\\end{Mfigure}", False) +
-        find_in_texfile(tex_content, "\\end{Mtable}", False) +
+        find_in_texfile(tex_content, "\\end{longtable}", False) +
         find_in_texfile(tex_content, "\\end{MFPfigure}", False))
     label_lines = find_in_texfile(tex_content, "\\label{", False)
 
@@ -151,6 +151,8 @@ def parseArguments(args):
         args.appendix_folder = os.path.join(args.location, 'appendix')
     if not args.figure_source:
         args.figure_source = os.path.join(args.location, 'figures')
+    if not args.original_figures:
+        args.original_figures = os.path.join(args.figure_source, 'original')
     if not args.figuretex:
         args.figuretex = os.path.join(args.figure_source, 'all-figures.tex')
     if not args.figure_dest:
@@ -188,7 +190,10 @@ def main():
         help="Tex file containing figure code chunks.")
     parser.add_argument(
         "-s", "--figure-source", default=False,
-        help="source folder containing figures.")
+        help="source folder containing figure subfolders.")
+    parser.add_argument(
+        "-fs", "--original-figures", default=False,
+        help="source folder containing original figures.")
     parser.add_argument(
         "-d", "--figure-dest", default=False,
         help="destination folder for cropped figures.")
@@ -222,7 +227,7 @@ def main():
     """Generate figures pdf"""
     # Crop pdfs for figures
     if not args.no_crop:
-        crop_pdfs(args.figure_source, args.figure_dest,
+        crop_pdfs(args.original_figures, args.figure_dest,
                   args.whitespace_margins)
 
     # find start point
