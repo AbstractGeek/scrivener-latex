@@ -56,14 +56,16 @@ def split_figure_tex(tex_content, dest):
     fig_start = sorted(
         find_in_texfile(tex_content, "\\begin{figure}", False) +
         find_in_texfile(tex_content, "\\begin{table}", False) +
-        find_in_texfile(tex_content, "\\begin{Mfigure}", False) +
         find_in_texfile(tex_content, "\\begin{longtable}", False) +
+        find_in_texfile(tex_content, "\\begin{Mfigure}", False) +
+        find_in_texfile(tex_content, "\\begin{Mtable}", False) +
         find_in_texfile(tex_content, "\\begin{MFPfigure}", False))
     fig_end = sorted(
         find_in_texfile(tex_content, "\\end{figure}", False) +
         find_in_texfile(tex_content, "\\end{table}", False) +
-        find_in_texfile(tex_content, "\\end{Mfigure}", False) +
         find_in_texfile(tex_content, "\\end{longtable}", False) +
+        find_in_texfile(tex_content, "\\end{Mfigure}", False) +
+        find_in_texfile(tex_content, "\\end{Mtable}", False) +
         find_in_texfile(tex_content, "\\end{MFPfigure}", False))
     label_lines = find_in_texfile(tex_content, "\\label{", False)
 
