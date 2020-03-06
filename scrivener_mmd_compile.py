@@ -50,6 +50,21 @@ def crop_pdfs(src, dest, margins):
                         os.path.join(src, filename),
                         os.path.join(dest, filename)])
 
+def compress_pdfs(src, dest, settings)                        :
+    """Compress pdfs in src and place in dest."""
+    pdfsettings = "-dPDFSETTINGS=/" + settings
+    files = glob(os.path.join(src, '*.pdf'))
+    if not os.path.exists(dest):
+        os.makedirs(dest)
+
+
+    for pdf in files:
+        _, filename = os.path.split(pdf)
+        subprocess.run(["gs", "-sDEVICE=pdfwrite", "-dCompatibilityLevel=1.4",
+                        pdfsettings, "-dNOPAUSE", "-dQUIET", "-dBATCH",
+                        "-sOutputFile="+os.path.join(dest, filename),
+                        os.path.join(src, filename)])
+
 
 def split_figure_tex(tex_content, dest):
     """Split figure tex file into individual files."""
@@ -157,8 +172,10 @@ def parseArguments(args):
         args.original_figures = os.path.join(args.figure_source, 'original')
     if not args.figuretex:
         args.figuretex = os.path.join(args.figure_source, 'all-figures.tex')
-    if not args.figure_dest:
-        args.figure_dest = os.path.join(args.figure_source, 'cropped')
+    if not args.cropped_figures:
+        args.cropped_figures = os.path.join(args.figure_source, 'cropped')
+    if not args.compressed_figures:
+        args.compressed_figures = os.path.join(args.figure_source, 'compressed')
     if not args.tex_folder:
         args.tex_folder = os.path.join(args.figure_source, 'texs')
     if not args.whitespace_margins:
@@ -197,8 +214,14 @@ def main():
         "-fs", "--original-figures", default=False,
         help="source folder containing original figures.")
     parser.add_argument(
-        "-d", "--figure-dest", default=False,
+        "-d", "--cropped-figures", default=False,
         help="destination folder for cropped figures.")
+    parser.add_argument(
+        "-cf", "--compressed-figures", default=False,
+        help="destination folder for compressed figures.")
+    parser.add_argument(
+        "-cs", "--compression", default="prepress",
+        help="destination folder for compressed figures.")
     parser.add_argument(
         "-w", "--whitespace-margins", default=False,
         help="white space margins for cropped figures.")
@@ -229,15 +252,19 @@ def main():
     """Generate figures pdf"""
     # Crop pdfs for figures
     if not args.no_crop:
-        crop_pdfs(args.original_figures, args.figure_dest,
+        crop_pdfs(args.original_figures, args.cropped_figures,
                   args.whitespace_margins)
+        compress_pdfs(args.cropped_figures, args.compressed_figures,
+                  args.compression)
 
     # find start point
     with open(args.maintex, 'r') as tex_file:
         main_tex_content = tex_file.readlines()
     main_start = find_in_texfile(main_tex_content, "\\begin{document}")
+
     # Create a figures pdf
     figure_tex_file = main_tex_content[:main_start + 1] + \
+        ['\\graphicspath{ {figures/cropped/} } \n'] + \
         ['\\clearpage\\mbox{}\\clearpage'] + \
         ["\\input{"] + [os.path.relpath(args.figuretex, args.location)] + \
         ["}\n", "\\end{document}\n", "\n"]
@@ -246,6 +273,19 @@ def main():
     # Compile tex and bib files
     subprocess.run(["lualatex", args.outfile + '-only-figures.tex'])
     subprocess.run(["lualatex", args.outfile + '-only-figures.tex'])
+
+    # Create a compressed figures pdf
+    compressed_figure_tex_file = main_tex_content[:main_start + 1] + \
+        ['\\graphicspath{ {figures/compressed/} } \n'] + \
+        ['\\clearpage\\mbox{}\\clearpage'] + \
+        ["\\input{"] + [os.path.relpath(args.figuretex, args.location)] + \
+        ["}\n", "\\end{document}\n", "\n"]
+    with open(args.outfile + '-only-figures-compressed.tex', 'w') as tex_file:
+        tex_file.writelines(compressed_figure_tex_file)
+    # Compile tex and bib files
+    subprocess.run(["lualatex", args.outfile + '-only-figures-compressed.tex'])
+    subprocess.run(["lualatex", args.outfile + '-only-figures-compressed.tex'])
+
 
     """Generate main pdf"""
     if not args.only_figures:
@@ -288,12 +328,20 @@ def main():
                            args.location, False) + \
             ['\\end{appendices} \n']
         complete_tex_file = main_tex_content[:input_line] + \
+            ['\\graphicspath{ {figures/cropped/} } \n'] + \
+            main_include_files + \
+            main_tex_content[input_line + 1:]
+        compressed_complete_tex_file = main_tex_content[:input_line] + \
+            ['\\graphicspath{ {figures/compressed/} } \n'] + \
             main_include_files + \
             main_tex_content[input_line + 1:]
 
         # Write complete tex file
         with open(args.outfile + '.tex', 'w') as tex_file:
             tex_file.writelines(complete_tex_file)
+
+        with open(args.outfile + '-compressed.tex', 'w') as tex_file:
+            tex_file.writelines(compressed_complete_tex_file)
 
         # Compile tex and bib files
         subprocess.run(["lualatex", args.outfile + '.tex'])
@@ -310,6 +358,12 @@ def main():
         # Compile twice to properly generates bibliography
         subprocess.run(["lualatex", args.outfile + '.tex'])
         subprocess.run(["lualatex", args.outfile + '.tex'])
+
+        # Compressed
+        subprocess.run(["lualatex", args.outfile + '-compressed.tex'])
+        subprocess.run(["lualatex", args.outfile + '-compressed.tex'])
+        subprocess.run(["lualatex", args.outfile + '-compressed.tex'])
+
 
     # Print exit message
     print("Scrivener mmd has been exported as docx, tex and pdf")
