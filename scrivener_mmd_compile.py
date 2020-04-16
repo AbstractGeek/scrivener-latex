@@ -54,45 +54,57 @@ def crop_pdfs(src, dest, margins):
         ])
 
 
-def compress_pdfs(src, dest, settings):
+def gs_compress(infile, outfile, pdfsettings):
+    """Compress pdf using ghostscript."""
+    subprocess.run([
+        "gs",
+        "-sDEVICE=pdfwrite",
+        "-dCompatibilityLevel=1.4",
+        pdfsettings,
+        "-dNOPAUSE",
+        "-dQUIET",
+        "-dBATCH",
+        "-sOutputFile=" + outfile,
+        infile,
+    ])
+
+
+def gm_compress(infile, outfile, dpi):
+    """Compress pdf using graphicsmagick."""
+    # Rasterize image
+    subprocess.run([
+        "gm",
+        "convert",
+        "-density",
+        dpi,
+        infile,
+        outfile,
+    ])
+
+
+def compress_pdfs(src, dest, gs_settings, ux, thres, dpi):
     """Compress pdfs in src and place in dest."""
-    pdfsettings = "-dPDFSETTINGS=/" + settings
+    pdfsettings = "-dPDFSETTINGS=/" + gs_settings
     files = glob(os.path.join(src, "*.pdf"))
     if not os.path.exists(dest):
         os.makedirs(dest)
 
     for pdf in files:
         _, filename = os.path.split(pdf)
-        subprocess.run([
-            "gs",
-            "-sDEVICE=pdfwrite",
-            "-dCompatibilityLevel=1.4",
-            pdfsettings,
-            "-dNOPAUSE",
-            "-dQUIET",
-            "-dBATCH",
-            "-sOutputFile=" + os.path.join(dest, filename),
-            os.path.join(src, filename),
-        ])
+        infile = os.path.join(src, filename)
+        outfile = os.path.join(dest, filename)
+        gs_compress(infile, outfile, pdfsettings)
 
-
-def ultracompress_pdfs(src, dest, dpi):
-    """Ultracompress pdfs in src and place in dest."""
-    files = glob(os.path.join(src, "*.pdf"))
-    if not os.path.exists(dest):
-        os.makedirs(dest)
-
-    for pdf in files:
-        _, filename = os.path.split(pdf)
-        # Rasterize image
-        subprocess.run([
-            "gm",
-            "convert",
-            "-density",
-            dpi,
-            os.path.join(src, filename),
-            os.path.join(dest, filename),
-        ])
+        # Check ultracompression is on, find the best filesize which works
+        if ux:
+            gs_filesize = os.stat(outfile).st_size
+            if gs_filesize > thres:
+                gm_compress(infile, outfile + ".temp", dpi)
+                gm_filesize = os.stat(outfile + ".temp").st_size
+                if gm_filesize < gs_filesize:
+                    os.replace(outfile + ".temp", outfile)
+                else:
+                    os.remove(outfile + ".temp")
 
 
 def split_figure_tex(tex_content, dest):
@@ -275,7 +287,7 @@ def main():
     parser.add_argument(
         "-cs",
         "--compression",
-        default="printer",
+        default="prepress",
         help="destination folder for compressed figures.",
     )
     parser.add_argument(
@@ -308,6 +320,25 @@ def main():
         default=False,
         action="store_true",
         help="Generate one bibliography for the whole thesis.",
+    )
+    parser.add_argument(
+        "-ux",
+        "--ultra-compression",
+        default=False,
+        action="store_true",
+        help=
+        "Ultra compress figures using graphicsmagick (before compilation).",
+    )
+    parser.add_argument(
+        "--gm-threshold",
+        default=1e5,  # 100 kB
+        type=float,
+        help="Rasterization dpi for graphicsmagick.",
+    )
+    parser.add_argument(
+        "--gm-dpi",
+        default="300",
+        help="Rasterization dpi for graphicsmagick.",
     )
     parser.add_argument(
         "-of",
@@ -344,9 +375,8 @@ def main():
         # Compress figures if compression in on
         if not args.no_compression:
             compress_pdfs(args.cropped_figures, args.compressed_figures,
-                          args.compression)
-        # ultracompress_pdfs(args.cropped_figures, args.compressed_figures,
-        #                   "150")
+                          args.compression, args.ultra_compression,
+                          args.gm_threshold, args.gm_dpi)
 
     # Setup defaults based on compression flag
     if args.no_compression:
